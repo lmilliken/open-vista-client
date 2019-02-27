@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PrivateRoute from './PrivateRoute';
 import Header from './Header';
 import ProgramNew from './admin/ProgramNew';
+import Pegasus from './Pegasus';
 
 import { fetchProgramTypes } from '../actions';
 const styles = theme => ({
@@ -21,14 +22,15 @@ class App extends Component {
   }
 
   render() {
-    //   const { classes } = this.props;
-    console.log(this.state);
+    console.log('state: ', this.state);
+    console.log('props: ', this.props);
     return (
       <div className='container'>
         <BrowserRouter>
           <div>
             <Header />
             <Route exact path='/programnew' component={ProgramNew} />
+            <Route exact path='/2019pegasus' component={Pegasus} />
           </div>
         </BrowserRouter>
       </div>

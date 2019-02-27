@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-class ProgramNewForm extends Component {
+class ProgramNewForm extends React.Component {
   onSubmit = formValues => {
     //formValues passed to this from redux form this.props.handelSubmit
     this.props.onSubmit(formValues);
