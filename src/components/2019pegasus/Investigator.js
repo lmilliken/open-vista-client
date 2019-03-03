@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import _ from 'lodash';
 import SelectCountry from './SelectCountry';
 import { withStyles } from '@material-ui/core/styles';
-import CountrySelect from '../common/CountrySelect';
+import CountrySelect from '../common/SelectCountry';
 const styles = theme => ({
   container: {
     display: 'flex',

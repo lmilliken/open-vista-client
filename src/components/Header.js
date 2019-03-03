@@ -14,8 +14,17 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import MailIcon from '@material-ui/icons/Mail';
 
-const styles = {
+const styless = {
   root: {
     flexGrow: 1,
   },
@@ -28,14 +37,57 @@ const styles = {
   },
 };
 
+const drawerWidth = 240;
+
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexGrow: 1,
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  drawer: {
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+  },
+  appBar: {
+    marginLeft: drawerWidth,
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+    },
+  },
+  menuButton: {
+    // marginRight: 20,
+    // [theme.breakpoints.up('sm')]: {
+    //   display: 'none',
+    // },
+  },
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+  },
+});
+
 class Header extends React.Component {
   state = {
     auth: true,
     anchorEl: null,
+    mobileOpen: false,
   };
 
-  handleChange = event => {
-    this.setState({ auth: event.target.checked });
+  // handleChange = event => {
+  //   this.setState({ auth: event.target.checked });
+  // };
+
+  handleDrawerToggle = () => {
+    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
   handleMenu = event => {
@@ -70,26 +122,7 @@ class Header extends React.Component {
         );
       default:
         return (
-          // onClick={this.logout()}
           <Fragment>
-            <Button
-              color='inherit'
-              onClick={e => {
-                e.preventDefault();
-                window.location.href = '/dashboard';
-              }}
-            >
-              Dashboard
-            </Button>
-            <Button
-              color='inherit'
-              onClick={e => {
-                e.preventDefault();
-                window.location.href = '/api/logout';
-              }}
-            >
-              Logout
-            </Button>
             <IconButton
               aria-owns={open ? 'menu-appbar' : undefined}
               aria-haspopup='true'
@@ -126,8 +159,11 @@ class Header extends React.Component {
     }
   }
 
+  handleDrawerToggle = () => {
+    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+  };
   render() {
-    const { classes } = this.props;
+    const { classes, theme } = this.props;
 
     //   console.log('Header: auth prop: ', this.props.auth);
     // console.log('Header rendering...');
@@ -135,6 +171,34 @@ class Header extends React.Component {
     // logout = () => {
     //   return (window.location.href = '/api/logout');
     // };
+
+    const drawer = (
+      <div>
+        <div className={classes.toolbar} />
+        <Divider />
+        <List>
+          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+      </div>
+    );
 
     return (
       <div className={classes.root}>
@@ -144,6 +208,7 @@ class Header extends React.Component {
               className={classes.menuButton}
               color='inherit'
               aria-label='Menu'
+              onClick={this.handleDrawerToggle}
             >
               <MenuIcon />
             </IconButton>
@@ -162,18 +227,37 @@ class Header extends React.Component {
                 Open Vista
               </Button>
             </Typography>
-            {/* <Button className={classes.menuButton} color="inherit" size="large">
-              <Typography
-                className={classes.grow}
-                variant="h6"
-                color="inherit"
-                noWrap>
-                We-Team
-              </Typography>{' '}
-            </Button> */}
             {this.renderContent()}
           </Toolbar>
         </AppBar>
+        <nav className={classes.drawer}>
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          <Hidden smUp implementation='css'>
+            <Drawer
+              container={this.props.container}
+              variant='temporary'
+              // anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+              open={this.state.mobileOpen}
+              onClose={this.handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden xsDown implementation='css'>
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant='permanent'
+              open
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+        </nav>
       </div>
       // <div className={classes.root}>
       //   <AppBar position="static">

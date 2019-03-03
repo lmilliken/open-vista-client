@@ -12,9 +12,11 @@ const renderTextField = ({
       label={label}
       placeholder={label}
       error={touched && invalid}
+      type='date'
       helperText={touched && error}
       {...input}
       {...custom}
+      InputLabelProps={{ shrink: true }}
     />
   </div>
 );

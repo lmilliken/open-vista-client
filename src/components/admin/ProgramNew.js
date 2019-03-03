@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+
+import Button from '@material-ui/core/Button';
+
+import renderTextField from '../common/renderTextField';
+import renderSelectField from '../common/renderSelectField';
+import renderDatePicker from '../common/renderDatePicker';
 
 class ProgramNewForm extends React.Component {
   onSubmit = formValues => {
     //formValues passed to this from redux form this.props.handelSubmit
-    this.props.onSubmit(formValues);
+    console.log({ formValues });
   };
 
   renderError({ error, touched }) {
@@ -17,36 +24,70 @@ class ProgramNewForm extends React.Component {
     }
   }
 
-  renderInput = ({ input, label, meta }) => {
-    //meta passes the errors from validation from the bottom of this file
-    const className = `field ${meta.error && meta.touched ? 'error' : ''} `;
-    return (
-      <div className={className}>
-        <label>{label}</label>
-        <input {...input} autoComplete='off' />
-        {this.renderError(meta)}
-      </div>
-    );
-  };
+  getProgramTypeOptions() {
+    if (!this.props.programTypes) {
+      return null;
+    }
+    const types = this.props.programTypes;
+    return types.map(type => (
+      <option value={type.id} key={type.id}>
+        {type.name}
+      </option>
+    ));
+  }
 
   render() {
+    console.log('props in ProgramNew ', this.props);
     return (
       <form
         className='ui form error'
         onSubmit={this.props.handleSubmit(this.onSubmit)}
       >
-        <Field name='title' label='Enter Title' component={this.renderInput} />
+        <Field name='title' label='Enter Title' component={renderTextField} />
+        <Field
+          name='programType'
+          label='Program Type'
+          component={renderSelectField}
+        >
+          <option value='' />
+          {this.getProgramTypeOptions()}
+        </Field>
+
         <Field
           name='description'
           label='Enter Description'
-          component={this.renderInput}
+          multiline
+          rows='4'
+          component={renderTextField}
         />
-        <button className='ui button primary'>Submit</button>
+        <Field
+          name='dateStart'
+          label='Start Date'
+          component={renderDatePicker}
+        />
+        <Field name='dateEnd' label='End Date' component={renderDatePicker} />
+        <Button type='submit' variant='contained' color='primary'>
+          Submit
+        </Button>
       </form>
     );
   }
 }
 
-export default reduxForm({
+const mapStateToProps = ({ shared: { programTypes } }) => {
+  console.log('state in mSP: ', programTypes);
+  return { programTypes: programTypes };
+};
+
+// export default reduxForm({
+//   form: 'programForm',
+// })(ProgramNewForm);
+
+const programForm = reduxForm({
   form: 'programForm',
-})(ProgramNewForm);
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(programForm(ProgramNewForm));
