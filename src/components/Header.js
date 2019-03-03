@@ -23,7 +23,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
-
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 const styless = {
   root: {
     flexGrow: 1,
@@ -47,17 +47,18 @@ const styles = theme => ({
   grow: {
     flexGrow: 1,
   },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
+  // drawer: {
+  //   [theme.breakpoints.up('sm')]: {
+  //     width: drawerWidth,
+  //     flexShrink: 0,
+  //   },
+  // },
   appBar: {
-    marginLeft: drawerWidth,
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
+    zIndex: theme.zIndex.drawer + 1,
+    // marginLeft: drawerWidth,
+    // [theme.breakpoints.up('sm')]: {
+    //   width: `calc(100% - ${drawerWidth}px)`,
+    // },
   },
   menuButton: {
     // marginRight: 20,
@@ -65,9 +66,20 @@ const styles = theme => ({
     //   display: 'none',
     // },
   },
-  toolbar: theme.mixins.toolbar,
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  toolbar: theme.mixins.toolbar, //pushes drawer down below toolbar
   drawerPaper: {
     width: drawerWidth,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
   },
   content: {
     flexGrow: 1,
@@ -94,6 +106,7 @@ class Header extends React.Component {
     this.setState({ anchorEl: event.currentTarget });
   };
 
+  //for app bar drop down
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
@@ -159,6 +172,10 @@ class Header extends React.Component {
     }
   }
 
+  handleDrawerClose = () => {
+    this.setState({ mobileOpen: false });
+  };
+
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
@@ -174,7 +191,6 @@ class Header extends React.Component {
 
     const drawer = (
       <div>
-        <div className={classes.toolbar} />
         <Divider />
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
@@ -204,15 +220,16 @@ class Header extends React.Component {
       <div className={classes.root}>
         <AppBar position='static'>
           <Toolbar>
-            <IconButton
-              className={classes.menuButton}
-              color='inherit'
-              aria-label='Menu'
-              onClick={this.handleDrawerToggle}
-            >
-              <MenuIcon />
-            </IconButton>
-
+            <Hidden smUp implementation='css'>
+              <IconButton
+                className={classes.menuButton}
+                color='inherit'
+                aria-label='Menu'
+                onClick={this.handleDrawerToggle}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
             <Typography
               className={classes.grow}
               variant='h6'
@@ -230,12 +247,43 @@ class Header extends React.Component {
             {this.renderContent()}
           </Toolbar>
         </AppBar>
+
+        {/* <Drawer
+          className={classes.drawer}
+          variant='permanent'
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <div className={classes.toolbar} />
+          <List>
+            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            {['All mail', 'Trash', 'Spam'].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          </List>
+        </Drawer> */}
         <nav className={classes.drawer}>
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation='css'>
             <Drawer
-              container={this.props.container}
+              // container={this.props.container}
               variant='temporary'
+              className={classes.drawer}
               // anchor={theme.direction === 'rtl' ? 'right' : 'left'}
               open={this.state.mobileOpen}
               onClose={this.handleDrawerToggle}
@@ -243,9 +291,15 @@ class Header extends React.Component {
                 paper: classes.drawerPaper,
               }}
             >
+              <div className={classes.drawerHeader}>
+                <IconButton onClick={this.handleDrawerClose}>
+                  <ChevronLeftIcon />
+                </IconButton>
+              </div>
               {drawer}
             </Drawer>
           </Hidden>
+
           <Hidden xsDown implementation='css'>
             <Drawer
               classes={{
@@ -254,27 +308,12 @@ class Header extends React.Component {
               variant='permanent'
               open
             >
+              <div className={classes.toolbar} />
               {drawer}
             </Drawer>
           </Hidden>
         </nav>
       </div>
-      // <div className={classes.root}>
-      //   <AppBar position="static">
-      //     <Toolbar>
-      //       <IconButton
-      //         className={classes.menuButton}
-      //         color="inherit"
-      //         aria-label="Menu">
-      //         <MenuIcon />
-      //       </IconButton>
-      //       <Typography variant="h6" color="inherit" className={classes.grow}>
-      //         News
-      //       </Typography>
-      //       <Button color="inherit">Login</Button>
-      //     </Toolbar>
-      //   </AppBar>
-      // </div>
     );
   }
 }

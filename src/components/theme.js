@@ -19,6 +19,7 @@ const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
   },
+  zIndex: { drawer: 0 },
 });
 
 export default theme;
