@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
+import Grid from '@material-ui/core/Grid';
+
 import Button from '@material-ui/core/Button';
 
 import renderTextField from '../common/renderTextField';
@@ -43,15 +45,29 @@ class ProgramNewForm extends React.Component {
         className='ui form error'
         onSubmit={this.props.handleSubmit(this.onSubmit)}
       >
-        <Field name='title' label='Enter Title' component={renderTextField} />
         <Field
-          name='programType'
-          label='Program Type'
-          component={renderSelectField}
-        >
-          <option value='' />
-          {this.getProgramTypeOptions()}
-        </Field>
+          name='title'
+          label='Enter Title'
+          component={renderTextField}
+          variant='outlined'
+          fullWidth
+          margin='normal'
+        />
+        <Grid container>
+          <Grid item xs={12} sm={6}>
+            <Field
+              name='programType'
+              label='Program Type'
+              component={renderSelectField}
+              variant='outlined'
+              fullWidth
+              margin='normal'
+            >
+              <option value='' />
+              {this.getProgramTypeOptions()}
+            </Field>
+          </Grid>
+        </Grid>
 
         <Field
           name='description'
@@ -59,13 +75,32 @@ class ProgramNewForm extends React.Component {
           multiline
           rows='4'
           component={renderTextField}
+          variant='outlined'
+          fullWidth
+          margin='normal'
         />
-        <Field
-          name='dateStart'
-          label='Start Date'
-          component={renderDatePicker}
-        />
-        <Field name='dateEnd' label='End Date' component={renderDatePicker} />
+        <Grid container spacing={16}>
+          <Grid item xs={12} sm={6}>
+            <Field
+              name='dateStart'
+              label='Start Date'
+              component={renderDatePicker}
+              variant='outlined'
+              fullWidth
+              margin='normal'
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Field
+              name='dateEnd'
+              label='End Date'
+              component={renderDatePicker}
+              variant='outlined'
+              fullWidth
+              margin='normal'
+            />
+          </Grid>
+        </Grid>
         <Button type='submit' variant='contained' color='primary'>
           Submit
         </Button>

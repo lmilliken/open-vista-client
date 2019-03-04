@@ -3,7 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
-
+import Typography from '@material-ui/core/Typography';
 import PrivateRoute from './PrivateRoute';
 import MenuVertical from './MenuVertical';
 import Header from './Header';
@@ -14,6 +14,7 @@ import ProgramNew from './admin/ProgramNew';
 import Pegasus from './Pegasus';
 
 import { fetchProgramTypes } from '../actions';
+const drawerWidth = 240;
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -21,8 +22,20 @@ const styles = theme => ({
     // margin: '50px'
   },
   paper: {
-    maxWidth: 900,
     margin: 'auto',
+    padding: 30,
+  },
+  content: {
+    flexGrow: 1,
+    background: 'white',
+    padding: theme.spacing.unit * 3,
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: drawerWidth,
+    },
+  },
+  article: {
+    margin: 'auto',
+    maxWidth: 760,
   },
 });
 
@@ -39,14 +52,33 @@ class App extends Component {
         <div>
           <Header />
           {/* <Grid container className={classes.root} spacing={16}> */}
-          <Grid container spacing={24}>
-            <Grid item s={3} />
-            <Grid item s={9}>
-              draw goes here
-            </Grid>
-            <Route exact path='/programnew' component={ProgramNew} />
-            <Route exact path='/2019pegasus' component={Pegasus} />
-          </Grid>
+
+          {/* <Route exact path='/programnew' component={ProgramNew} />
+            <Route exact path='/2019pegasus' component={Pegasus} /> */}
+          <main className={classes.content}>
+            {/* <div className={classes.toolbar} /> */}
+            <article className={classes.article}>
+              <Typography paragraph>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Rhoncus dolor purus non enim praesent elementum facilisis leo
+                vel. Risus at ultrices mi tempus imperdiet. Semper risus in
+                hendrerit gravida rutrum quisque non tellus. Convallis convallis
+                tellus id interdum velit laoreet id donec ultrices. Odio morbi
+                quis commodo odio aenean sed adipiscing. Amet nisl suscipit
+                adipiscing bibendum est ultricies integer quis. Cursus euismod
+                quis viverra nibh cras. Metus vulputate eu scelerisque felis
+                imperdiet proin fermentum leo. Mauris commodo quis imperdiet
+                massa tincidunt. Cras tincidunt lobortis feugiat vivamus at
+                augue. At augue eget arcu dictum varius duis at consectetur
+                lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
+                sapien faucibus et molestie ac.
+              </Typography>
+              <Paper className={classes.paper}>
+                <Route exact path='/programnew' component={ProgramNew} />
+              </Paper>
+            </article>
+          </main>
         </div>
       </BrowserRouter>
     );
