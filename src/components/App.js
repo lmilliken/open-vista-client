@@ -12,7 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ProgramNew from './admin/ProgramNew';
 import Pegasus from './Pegasus';
-
+import Test from './demos/Test';
 import { fetchProgramTypes } from '../actions';
 const drawerWidth = 240;
 const styles = theme => ({
@@ -45,7 +45,7 @@ class App extends Component {
   }
 
   render() {
-    console.log('props: ', this.props);
+    // console.log('props: ', this.props);
     const { classes } = this.props;
     return (
       <BrowserRouter>
@@ -76,6 +76,7 @@ class App extends Component {
               </Typography>
               <Paper className={classes.paper}>
                 <Route exact path='/programnew' component={ProgramNew} />
+                <Route exact path='/test' component={Test} />
               </Paper>
             </article>
           </main>
