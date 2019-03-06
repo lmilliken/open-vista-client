@@ -11,8 +11,13 @@ import MenuDrawer from './MenuDrawer';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ProgramNew from './admin/ProgramNew';
+import ProgramNewRedux from './admin/ProgramNewRedux';
 import Pegasus from './Pegasus';
 import Test from './demos/Test';
+import Formik from './demos/Formik';
+import Formik2 from './demos/Formik2';
+import Reservation from './demos/Reservation';
+import Invitation from './demos/Invitation';
 import { fetchProgramTypes } from '../actions';
 const drawerWidth = 240;
 const styles = theme => ({
@@ -76,7 +81,16 @@ class App extends Component {
               </Typography>
               <Paper className={classes.paper}>
                 <Route exact path='/programnew' component={ProgramNew} />
+                <Route
+                  exact
+                  path='/programnewredux'
+                  component={ProgramNewRedux}
+                />
                 <Route exact path='/test' component={Test} />
+                <Route exact path='/formik' component={Formik} />
+                <Route exact path='/formik2' component={Formik2} />
+                <Route exact path='/reservation' component={Reservation} />
+                <Route exact path='/invitation' component={Invitation} />
               </Paper>
             </article>
           </main>
