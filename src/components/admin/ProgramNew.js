@@ -11,8 +11,9 @@ import isEmpty from 'lodash/isEmpty';
 import TextField from './TextFieldFormik';
 import Select from './SelectFormik';
 import DatePicker from './DatePickerFormik';
-import SelectAutoFormik from './SelectAutoFormik';
+import SelectFormikReact from './SelectAutoFormik';
 
+import AutoSelect from '../demos/AutoSelect';
 const styles = theme => ({
   container: {
     display: 'flex',
@@ -81,6 +82,19 @@ class ProgramNew extends React.Component {
         initialValues={initialValues}
         onSubmit={onSubmit}
         render={props => {
+          const {
+            values,
+            touched,
+            dirty,
+            errors,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            handleReset,
+            setFieldValue,
+            setFieldTouched,
+            isSubmitting,
+          } = props;
           return (
             <Form>
               <Field
@@ -138,15 +152,27 @@ class ProgramNew extends React.Component {
                   />
                 </Grid>
               </Grid>
-              {/* <Field
+              <Field
                 name='admins'
                 label='Admins'
                 variant='outlined'
                 fullWidth
                 margin='normal'
-                component={SelectAutoFormik}
+                value={values.admins}
+                onChange={setFieldValue}
+                onBlur={setFieldTouched}
+                error={errors.admins}
+                touched={touched.admins}
+                component={SelectFormikReact}
+              />
+
+              {/* <SelectFormikReact
+                value={values.admins}
+                onChange={setFieldValue}
+                onBlur={setFieldTouched}
+                error={errors.admins}
+                touched={touched.admins}
               /> */}
-              <SelectAutoFormik />
               <p>Usrs</p>
               {this.getUsers()}
               <button
@@ -161,7 +187,7 @@ class ProgramNew extends React.Component {
             </Form>
           );
         }}
-      />
+      /> //Formik
     );
   }
 }

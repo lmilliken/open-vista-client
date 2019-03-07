@@ -126,6 +126,8 @@ function Control(props) {
   return (
     <TextField
       fullWidth
+      label='some lable'
+      variant='outlined'
       InputProps={{
         inputComponent,
         inputProps: {
@@ -200,13 +202,13 @@ function Menu(props) {
 }
 
 const components = {
-  // Control,
-  // Menu,
-  // NoOptionsMessage,
-  // Option,
-  // Placeholder,
-  // SingleValue,
-  // ValueContainer,
+  Control,
+  Menu,
+  NoOptionsMessage,
+  Option,
+  Placeholder,
+  SingleValue,
+  ValueContainer,
 };
 
 class IntegrationReactSelect extends React.Component {
@@ -238,7 +240,7 @@ class IntegrationReactSelect extends React.Component {
         classes={classes}
         styles={selectStyles}
         options={suggestions}
-        // components={components}
+        components={components}
         value={this.state.single}
         onChange={this.handleChange('single')}
         placeholder='Se with a)'

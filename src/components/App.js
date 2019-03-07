@@ -19,6 +19,7 @@ import Formik2 from './demos/Formik2';
 import Reservation from './demos/Reservation';
 import Invitation from './demos/Invitation';
 import AutoSelect from './demos/AutoSelect';
+import Jared from './demos/Jared';
 import SelectFormik from './admin/SelectFormik';
 
 import { fetchProgramTypes, fetchUsers } from '../actions';
@@ -85,7 +86,6 @@ class App extends Component {
                 sapien faucibus et molestie ac.
               </Typography>
               <Paper className={classes.paper}>
-                <SelectAutoFormik />
                 <Route exact path='/programnew' component={ProgramNew} />
                 <Route
                   exact
@@ -98,6 +98,7 @@ class App extends Component {
                 <Route exact path='/reservation' component={Reservation} />
                 <Route exact path='/invitation' component={Invitation} />
                 <Route exact path='/autoselect' component={AutoSelect} />
+                <Route exact path='/jared' component={Jared} />
               </Paper>
             </article>
           </main>

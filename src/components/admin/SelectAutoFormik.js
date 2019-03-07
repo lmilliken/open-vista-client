@@ -209,15 +209,26 @@ const components = {
   // ValueContainer,
 };
 
-class IntegrationReactSelect extends React.Component {
-  state = {
-    single: null,
+export class SelectFormikReact extends React.Component {
+  // state = {
+  //   single: null,
+  // };
+
+  // handleChange = name => value => {
+  //   this.setState({
+  //     [name]: value,
+  //   });
+  // };
+
+  handleChange = value => {
+    // this is going to call setFieldValue and manually update values.topcis
+    // debugger;
+    this.props.onChange('admins', value);
   };
 
-  handleChange = name => value => {
-    this.setState({
-      [name]: value,
-    });
+  handleBlur = () => {
+    // this is going to call setFieldTouched and manually update touched.topcis
+    this.props.onBlur('admins', true);
   };
 
   render() {
@@ -235,22 +246,25 @@ class IntegrationReactSelect extends React.Component {
 
     return (
       <Select
-        // classes={classes}
-        // styles={selectStyles}
+        classes={classes}
+        styles={selectStyles}
         options={suggestions}
         // components={components}
-        value={this.state.single}
-        onChange={this.handleChange('single')}
-        placeholder='Start typing a user name or email.)'
-        // isClearable
+        // value={this.state.single}
+        // onChange={this.handleChange('single')}
+        placeholder="Start typing a user's name or email."
+        onChange={this.handleChange}
+        onBlur={this.handleBlur}
+        value={this.props.value}
+        isClearable
       />
     );
   }
 }
 
-IntegrationReactSelect.propTypes = {
+SelectFormikReact.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(IntegrationReactSelect);
+export default withStyles(styles, { withTheme: true })(SelectFormikReact);
