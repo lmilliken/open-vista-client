@@ -20,24 +20,26 @@ const inputLabelProps = {
 //   ...props
 // }
 const MaterialInput = ({
-  field: { /* value, */ ...fields },
+  field: { /* value, */ ...fieldAttributes },
   form: { touched, errors, ...rest },
   ...props
 }) => {
-  // console.log(props);
-  // console.log({ value });
+  // console.log({ props }); //custom props passed from <Field/>
+  // console.log({ fieldAttributes }); //name, value, onBlur, onChange
   //console.log({ fields });
   return (
     <TextField
       {...props}
-      {...fields}
+      {...fieldAttributes}
       //value={rest.values[props.name]}
       //InputLabelProps={inputLabelProps}
       //component={FormControl}
       // value={rest.values[props.name]}
-      error={Boolean(touched[fields.name] && errors[fields.name])}
+      error={Boolean(
+        touched[fieldAttributes.name] && errors[fieldAttributes.name],
+      )}
       //label={(touched[field.name] && errors[field.name]) || label}
-      helperText={touched[fields.name] && errors[fields.name]}
+      helperText={touched[fieldAttributes.name] && errors[fieldAttributes.name]}
     />
   );
 };

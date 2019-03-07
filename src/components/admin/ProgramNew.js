@@ -1,5 +1,6 @@
 import React from 'react';
-import { Formik, Form, FastField as Field } from 'formik';
+import { connect } from 'react-redux';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -10,6 +11,7 @@ import isEmpty from 'lodash/isEmpty';
 import TextField from './TextFieldFormik';
 import Select from './SelectFormik';
 import DatePicker from './DatePickerFormik';
+import SelectAutoFormik from './SelectAutoFormik';
 
 const styles = theme => ({
   container: {
@@ -42,14 +44,36 @@ const onSubmit = (values, actions) => {
   // this could also easily use props or other
   // local state to alter the behavior if needed
   // this.props.sendValuesToServer(values)
-
+  console.log({ actions });
   setTimeout(() => {
     console.log({ values });
     actions.setSubmitting(false);
   }, 1000);
 };
 
-class TextFields extends React.Component {
+class ProgramNew extends React.Component {
+  getProgramTypeOptions() {
+    if (!this.props.programTypes) {
+      return null;
+    }
+    const types = this.props.programTypes;
+    console.log({ types });
+    return types.map(type => (
+      <option value={type._id} key={type.id}>
+        {type.name}
+      </option>
+    ));
+  }
+
+  getUsers() {
+    if (!this.props.users) {
+      return null;
+    }
+    const users = this.props.users;
+    console.log(this.props.users);
+    return users.map(user => <p>{user.nameFirst}</p>);
+  }
+
   render() {
     return (
       <Formik
@@ -77,8 +101,8 @@ class TextFields extends React.Component {
                     fullWidth
                   >
                     <option value={null} key='blank' />
-                    <option value='1'>option1</option>
-                    <option value='2'>option2</option>
+                    {this.getProgramTypeOptions()}
+                    ))}
                   </Field>
                 </Grid>
               </Grid>
@@ -92,15 +116,39 @@ class TextFields extends React.Component {
                 rows='4'
                 component={TextField}
               />
-
-              <Field
-                name='dateEnd'
-                label='End Date'
+              <Grid container spacing={16}>
+                <Grid item xs={12} sm={6}>
+                  <Field
+                    name='dateStart'
+                    label='Start Date'
+                    component={DatePicker}
+                    variant='outlined'
+                    fullWidth
+                    margin='normal'
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Field
+                    name='dateEnd'
+                    label='End Date'
+                    variant='outlined'
+                    fullWidth
+                    margin='normal'
+                    component={DatePicker}
+                  />
+                </Grid>
+              </Grid>
+              {/* <Field
+                name='admins'
+                label='Admins'
                 variant='outlined'
                 fullWidth
                 margin='normal'
-                component={DatePicker}
-              />
+                component={SelectAutoFormik}
+              /> */}
+              <SelectAutoFormik />
+              <p>Usrs</p>
+              {this.getUsers()}
               <button
                 type='submit'
                 variant='contained'
@@ -117,5 +165,16 @@ class TextFields extends React.Component {
     );
   }
 }
+//{ shared: { programTypes } }
+const mapStateToProps = ({ shared: { programTypes, users } }) => {
+  // console.log('state in mSP: ', users);
+  // return null;
+  return { programTypes, users };
+};
 
-export default withStyles(styles)(TextFields);
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    null,
+  )(ProgramNew),
+);

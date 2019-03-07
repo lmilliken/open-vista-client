@@ -5,57 +5,57 @@ import { Formik, Form, FastField as Field } from 'formik';
 import * as Yup from 'yup';
 import isEmpty from 'lodash/isEmpty';
 
-// const MaterialInput = props => {
-//   // console.log(rest);
-//   // console.log({ value });
-//   //   console.log({ fields });
-//   const fields = props.field;
-//   return (
-//     <React.Fragment>
-//       <TextField
-//         {...props}
-//         {...fields}
-//         //value={rest.values[props.name]}
-//         //InputLabelProps={inputLabelProps}
-//         //component={FormControl}
-//         // value={rest.values[props.name]}
-//         error={Boolean(
-//           props.form.touched[fields.name] && props.form.errors[fields.name],
-//         )}
-//         //label={(touched[field.name] && errors[field.name]) || label}
-//         helperText={
-//           props.form.touched[fields.name] && props.form.errors[fields.name]
-//         }
-//       />
-//       <p>Field gives us:</p>
-//       <pre>{JSON.stringify(props, null, 2)}</pre>
-//     </React.Fragment>
-//   );
-// };
-
-//ORIGINAL
-const MaterialInput = ({
-  field: { /* value, */ ...fields },
-  form: { touched, errors, ...rest },
-  ...props
-}) => {
+const MaterialInput = props => {
   // console.log(rest);
   // console.log({ value });
-  console.log({ fields });
+  //   console.log({ fields });
+  const fields = props.field;
   return (
-    <TextField
-      {...props}
-      {...fields}
-      //value={rest.values[props.name]}
-      //InputLabelProps={inputLabelProps}
-      //component={FormControl}
-      // value={rest.values[props.name]}
-      error={Boolean(touched[fields.name] && errors[fields.name])}
-      //label={(touched[field.name] && errors[field.name]) || label}
-      helperText={touched[fields.name] && errors[fields.name]}
-    />
+    <React.Fragment>
+      <TextField
+        {...props}
+        {...fields}
+        //value={rest.values[props.name]}
+        //InputLabelProps={inputLabelProps}
+        //component={FormControl}
+        // value={rest.values[props.name]}
+        error={Boolean(
+          props.form.touched[fields.name] && props.form.errors[fields.name],
+        )}
+        //label={(touched[field.name] && errors[field.name]) || label}
+        helperText={
+          props.form.touched[fields.name] && props.form.errors[fields.name]
+        }
+      />
+      <p>Field gives us:</p>
+      <pre>{JSON.stringify(props, null, 2)}</pre>
+    </React.Fragment>
   );
 };
+
+//ORIGINAL
+// const MaterialInput = ({
+//   field: { /* value, */ ...fields },
+//   form: { touched, errors, ...rest },
+//   ...props
+// }) => {
+//   // console.log(rest);
+//   // console.log({ value });
+//   console.log({ fields });
+//   return (
+//     <TextField
+//       {...props}
+//       {...fields}
+//       //value={rest.values[props.name]}
+//       //InputLabelProps={inputLabelProps}
+//       //component={FormControl}
+//       // value={rest.values[props.name]}
+//       error={Boolean(touched[fields.name] && errors[fields.name])}
+//       //label={(touched[field.name] && errors[field.name]) || label}
+//       helperText={touched[fields.name] && errors[fields.name]}
+//     />
+//   );
+// };
 
 const styles = theme => ({
   container: {

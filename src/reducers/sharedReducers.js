@@ -4,7 +4,7 @@ export function programTypes(state = null, action) {
   //console.log(action);
   switch (action.type) {
     case FETCH_PROGRAM_TYPES:
-      //   console.log('fetch user reducer');
+      console.log('fetch type reducer', action);
       return action.payload || false;
     default:
       return state;
@@ -15,7 +15,7 @@ export function users(state = null, action) {
   //console.log(action);
   switch (action.type) {
     case FETCH_USERS:
-      // console.log('fetch user reducer');
+      console.log('fetch user reducer', action);
       return action.payload || false;
     default:
       return state;

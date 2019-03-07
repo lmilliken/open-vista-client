@@ -1,1 +1,2 @@
 export const FETCH_PROGRAM_TYPES = 'FETCH_PROGRAM_TYPES';
+export const FETCH_USERS = 'FETCH_USERS';

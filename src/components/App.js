@@ -18,7 +18,11 @@ import Formik from './demos/Formik';
 import Formik2 from './demos/Formik2';
 import Reservation from './demos/Reservation';
 import Invitation from './demos/Invitation';
-import { fetchProgramTypes } from '../actions';
+import AutoSelect from './demos/AutoSelect';
+import SelectFormik from './admin/SelectFormik';
+
+import { fetchProgramTypes, fetchUsers } from '../actions';
+import SelectAutoFormik from './admin/SelectAutoFormik';
 const drawerWidth = 240;
 const styles = theme => ({
   root: {
@@ -47,6 +51,7 @@ const styles = theme => ({
 class App extends Component {
   componentDidMount() {
     this.props.fetchProgramTypes();
+    this.props.fetchUsers();
   }
 
   render() {
@@ -80,6 +85,7 @@ class App extends Component {
                 sapien faucibus et molestie ac.
               </Typography>
               <Paper className={classes.paper}>
+                <SelectAutoFormik />
                 <Route exact path='/programnew' component={ProgramNew} />
                 <Route
                   exact
@@ -91,6 +97,7 @@ class App extends Component {
                 <Route exact path='/formik2' component={Formik2} />
                 <Route exact path='/reservation' component={Reservation} />
                 <Route exact path='/invitation' component={Invitation} />
+                <Route exact path='/autoselect' component={AutoSelect} />
               </Paper>
             </article>
           </main>
@@ -110,6 +117,6 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
   connect(
     mapStateToProps,
-    { fetchProgramTypes },
+    { fetchProgramTypes, fetchUsers },
   )(App),
 ); //this makes all of the actions assigned to App as props so you can call them with this.props. fetchUser()
