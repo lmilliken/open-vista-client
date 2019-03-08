@@ -232,8 +232,8 @@ export class SelectFormikReact extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
-
+    const { classes, theme, options } = this.props;
+    console.log('props', this.props);
     const selectStyles = {
       input: base => ({
         ...base,
@@ -248,7 +248,7 @@ export class SelectFormikReact extends React.Component {
       <Select
         classes={classes}
         styles={selectStyles}
-        options={suggestions}
+        options={this.props.options}
         // components={components}
         // value={this.state.single}
         // onChange={this.handleChange('single')}

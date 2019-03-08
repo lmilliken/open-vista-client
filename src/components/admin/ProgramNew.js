@@ -72,10 +72,15 @@ class ProgramNew extends React.Component {
     }
     const users = this.props.users;
     console.log(this.props.users);
-    return users.map(user => <p>{user.nameFirst}</p>);
+    return users.map(user => ({
+      value: user._id,
+      label: `${user.nameFirst} ${user.nameLast} (${user.email})`,
+    }));
   }
 
   render() {
+    const users = this.getUsers();
+    console.log({ users });
     return (
       <Formik
         validationSchema={validationSchema}
@@ -164,6 +169,7 @@ class ProgramNew extends React.Component {
                 error={errors.admins}
                 touched={touched.admins}
                 component={SelectFormikReact}
+                options={users || ['Loading']}
               />
 
               {/* <SelectFormikReact
@@ -173,16 +179,15 @@ class ProgramNew extends React.Component {
                 error={errors.admins}
                 touched={touched.admins}
               /> */}
-              <p>Usrs</p>
-              {this.getUsers()}
-              <button
+
+              <Button
                 type='submit'
                 variant='contained'
                 color='primary'
                 //disabled={isSubmitting || !isEmpty(errors) || !dirty}
               >
                 Submit
-              </button>
+              </Button>
               <pre>{JSON.stringify(props, null, 2)}</pre>
             </Form>
           );
