@@ -8,10 +8,10 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 import isEmpty from 'lodash/isEmpty';
-import TextField from './TextFieldFormik';
-import Select from './SelectFormik';
-import DatePicker from './DatePickerFormik';
-import SelectFormikReact from './SelectAutoFormik';
+import TextField from '../common/TextFieldFormik';
+import Select from '../common/SelectFormik';
+import DatePicker from '../common/DatePickerFormik';
+import SelectFormikReact from '../common/SelectAutoFormik';
 
 import AutoSelect from '../demos/AutoSelect';
 const styles = theme => ({
@@ -54,10 +54,10 @@ const onSubmit = (values, actions) => {
 
 class ProgramNew extends React.Component {
   getProgramTypeOptions() {
-    if (!this.props.programTypes) {
+    if (!this.props.programTypes.types) {
       return null;
     }
-    const types = this.props.programTypes;
+    const types = this.props.programTypes.types;
     console.log({ types });
     return types.map(type => (
       <option value={type._id} key={type.id}>
@@ -67,10 +67,10 @@ class ProgramNew extends React.Component {
   }
 
   getUsers() {
-    if (!this.props.users) {
+    if (!this.props.users.users) {
       return null;
     }
-    const users = this.props.users;
+    const users = this.props.users.users;
     console.log(this.props.users);
     return users.map(user => ({
       value: user._id,
@@ -79,8 +79,23 @@ class ProgramNew extends React.Component {
   }
 
   render() {
-    const users = this.getUsers();
-    console.log({ users });
+    const typesPending = this.props.programTypes.isPending;
+    const usersPending = this.props.users.isPending;
+    if (typesPending) {
+      return <p>Loading...</p>;
+    }
+    const typesError = this.props.programTypes.error;
+    const usersError = this.props.users.error;
+    if (typesError || usersError) {
+      return (
+        <React.Fragment>
+          <p>Something went wrong. Please contact the administrator</p>;
+          <pre>{typesError.toString()}</pre>
+          <pre>{usersError.toString()}</pre>
+        </React.Fragment>
+      );
+    }
+
     return (
       <Formik
         validationSchema={validationSchema}
@@ -169,7 +184,7 @@ class ProgramNew extends React.Component {
                 error={errors.admins}
                 touched={touched.admins}
                 component={SelectFormikReact}
-                options={users || ['Loading']}
+                options={this.getUsers()}
               />
 
               {/* <SelectFormikReact

@@ -20,10 +20,11 @@ import Reservation from './demos/Reservation';
 import Invitation from './demos/Invitation';
 import AutoSelect from './demos/AutoSelect';
 import Jared from './demos/Jared';
-import SelectFormik from './admin/SelectFormik';
+import SelectFormik from './common/SelectFormik';
+import Register from './profile/Register';
 
 import { fetchProgramTypes, fetchUsers } from '../actions';
-import SelectAutoFormik from './admin/SelectAutoFormik';
+import SelectAutoFormik from './common/SelectAutoFormik';
 const drawerWidth = 240;
 const styles = theme => ({
   root: {
@@ -87,11 +88,12 @@ class App extends Component {
               </Typography>
               <Paper className={classes.paper}>
                 <Route exact path='/programnew' component={ProgramNew} />
-                <Route
+                {/* <Route
                   exact
                   path='/programnewredux'
                   component={ProgramNewRedux}
-                />
+                /> */}
+                <Route exact path='/register' component={Register} />
                 <Route exact path='/test' component={Test} />
                 <Route exact path='/formik' component={Formik} />
                 <Route exact path='/formik2' component={Formik2} />
@@ -109,7 +111,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-  // console.log('state in mSP: ', state);
+  //console.log('state in mSP: ', state);
   return { state };
 };
 
@@ -121,3 +123,4 @@ export default withStyles(styles)(
     { fetchProgramTypes, fetchUsers },
   )(App),
 ); //this makes all of the actions assigned to App as props so you can call them with this.props. fetchUser()
+// export default App;
