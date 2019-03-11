@@ -10,8 +10,9 @@ import Header from './Header';
 import MenuDrawer from './MenuDrawer';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import ProgramNew from './admin/ProgramNew';
 import ProgramNewRedux from './admin/ProgramNewRedux';
+import ProgramNew from './admin/ProgramNew';
+import Programs from './admin/Programs';
 import Pegasus from './Pegasus';
 import Test from './demos/Test';
 import Formik from './demos/Formik';
@@ -88,6 +89,7 @@ class App extends Component {
               </Typography>
               <Paper className={classes.paper}>
                 <Route exact path='/programnew' component={ProgramNew} />
+                <Route exact path='/programs' component={Programs} />
                 {/* <Route
                   exact
                   path='/programnewredux'

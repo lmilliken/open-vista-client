@@ -13,21 +13,69 @@ import Select from '../common/SelectFormik';
 import DatePicker from '../common/DatePickerFormik';
 import SelectFormikReact from '../common/SelectAutoFormik';
 
-import { createProgram } from '../../actions';
 import AutoSelect from '../demos/AutoSelect';
-import { Typography } from '@material-ui/core';
+// const styles = theme => ({
+//   container: {
+//     display: 'flex',
+//     flexWrap: 'wrap',
+//   },
+//   textField: {
+//     marginLeft: theme.spacing.unit,
+//     marginRight: theme.spacing.unit,
+//     width: 200,
+//   },
+//   menu: {
+//     width: 200,
+//   },
+// });
+
 const styles = theme => ({
-  container: {
+  root: {
+    flexGrow: 1,
+    height: 250,
+  },
+  input: {
+    display: 'flex',
+    padding: 0,
+  },
+  valueContainer: {
     display: 'flex',
     flexWrap: 'wrap',
+    flex: 1,
+    alignItems: 'center',
+    overflow: 'hidden',
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
+  chip: {
+    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
   },
-  menu: {
-    width: 200,
+  // chipFocused: {
+  //   backgroundColor: emphasize(
+  //     theme.palette.type === 'light'
+  //       ? theme.palette.grey[300]
+  //       : theme.palette.grey[700],
+  //     0.08,
+  //   ),
+  // },
+  noOptionsMessage: {
+    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+  },
+  singleValue: {
+    fontSize: 16,
+  },
+  placeholder: {
+    position: 'absolute',
+    left: 2,
+    fontSize: 16,
+  },
+  paper: {
+    position: 'absolute',
+    zIndex: 1,
+    marginTop: theme.spacing.unit,
+    left: 0,
+    right: 0,
+  },
+  divider: {
+    height: theme.spacing.unit * 2,
   },
 });
 
@@ -35,42 +83,26 @@ const validationSchema = Yup.object().shape({
   title: Yup.string().required('Title is required.'),
   programType: Yup.string().required('Program type is required.'),
   description: Yup.string().required('Description is required'),
-  dateStart: Yup.date().required('Start date is required.'),
-  dateEnd: Yup.date().required('Start date is required.'),
-  admins: Yup.array()
-    .of(
-      Yup.object().shape({
-        label: Yup.string().required(),
-        value: Yup.string().required(),
-      }),
-    )
-    .nullable(),
 });
 
 const initialValues = {
-  title: 'Title',
-  description: 'Description',
-  programType: '5c77af995d7aa31db8cf3878',
-  dateStart: '03/07/2019',
-  dateEnd: '04/01/2019',
-  admins: [],
+  title: '',
+  description: '',
+  programType: '',
+};
+
+const onSubmit = (values, actions) => {
+  // this could also easily use props or other
+  // local state to alter the behavior if needed
+  // this.props.sendValuesToServer(values)
+  console.log({ actions });
+  setTimeout(() => {
+    console.log({ values });
+    actions.setSubmitting(false);
+  }, 1000);
 };
 
 class ProgramNew extends React.Component {
-  onSubmit = (values, actions) => {
-    console.log('on submit', values);
-    const payload = {
-      ...values,
-      admins: values.admins.value,
-    };
-    // this could also easily use props or other
-    // local state to alter the behavior if needed
-    // this.props.sendValuesToServer(values)
-    const { createProgram } = this.props;
-    // console.log({ values });
-    createProgram(payload);
-  };
-
   getProgramTypeOptions() {
     if (!this.props.programTypes.types) {
       return null;
@@ -118,7 +150,7 @@ class ProgramNew extends React.Component {
       <Formik
         validationSchema={validationSchema}
         initialValues={initialValues}
-        onSubmit={this.onSubmit}
+        onSubmit={onSubmit}
         render={props => {
           const {
             values,
@@ -146,7 +178,7 @@ class ProgramNew extends React.Component {
               <Grid container>
                 <Grid item xs={12} sm={6}>
                   <Field
-                    name='type'
+                    name='programType'
                     label='Program Type'
                     component={Select}
                     variant='outlined'
@@ -190,16 +222,12 @@ class ProgramNew extends React.Component {
                   />
                 </Grid>
               </Grid>
-              <Typography style={{ marginTop: '20px' }} variant='subtitle2'>
-                Administator
-              </Typography>
               <Field
                 name='admins'
                 label='Admins'
                 variant='outlined'
                 fullWidth
-                // margin='normal'
-                placeholder="Start typing a user's name or email."
+                margin='normal'
                 value={values.admins}
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}
@@ -221,7 +249,6 @@ class ProgramNew extends React.Component {
                 type='submit'
                 variant='contained'
                 color='primary'
-                style={{ marginTop: '20px' }}
                 //disabled={isSubmitting || !isEmpty(errors) || !dirty}
               >
                 Submit
@@ -235,18 +262,15 @@ class ProgramNew extends React.Component {
   }
 }
 //{ shared: { programTypes } }
-const mapStateToProps = ({
-  shared: { programTypes, users },
-  createProgram,
-}) => {
+const mapStateToProps = ({ shared: { programTypes, users } }) => {
   // console.log('state in mSP: ', users);
   // return null;
-  return { programTypes, users, createProgram };
+  return { programTypes, users };
 };
 
 export default withStyles(styles)(
   connect(
     mapStateToProps,
-    { createProgram },
+    null,
   )(ProgramNew),
 );

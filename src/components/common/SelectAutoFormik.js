@@ -16,6 +16,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 
+import FormHelperText from '@material-ui/core/FormHelperText';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 const suggestions = [
   { label: 'Afghanistan' },
   { label: 'Aland Islands' },
@@ -126,6 +128,7 @@ function Control(props) {
   return (
     <TextField
       fullWidth
+      variant='outlined'
       InputProps={{
         inputComponent,
         inputProps: {
@@ -200,14 +203,24 @@ function Menu(props) {
 }
 
 const components = {
-  // Control,
-  // Menu,
-  // NoOptionsMessage,
-  // Option,
+  Control,
+  Menu,
+  NoOptionsMessage,
+  Option,
   // Placeholder,
-  // SingleValue,
-  // ValueContainer,
+  SingleValue,
+  ValueContainer,
 };
+
+// const components = {
+//   Control,
+//   Menu,
+//   NoOptionsMessage,
+//   Option,
+//   Placeholder,
+//   SingleValue,
+//   ValueContainer,
+// };
 
 export class SelectFormikReact extends React.Component {
   // state = {
@@ -232,7 +245,7 @@ export class SelectFormikReact extends React.Component {
   };
 
   render() {
-    const { classes, theme, options } = this.props;
+    const { classes, theme, options, ...props } = this.props;
     console.log('props', this.props);
     const selectStyles = {
       input: base => ({
@@ -243,21 +256,28 @@ export class SelectFormikReact extends React.Component {
         },
       }),
     };
+    const name = props.field.name;
 
     return (
-      <Select
-        classes={classes}
-        styles={selectStyles}
-        options={this.props.options}
-        // components={components}
-        // value={this.state.single}
-        // onChange={this.handleChange('single')}
-        placeholder="Start typing a user's name or email."
-        onChange={this.handleChange}
-        onBlur={this.handleBlur}
-        value={this.props.value}
-        isClearable
-      />
+      <FormControl {...props} error>
+        <Select
+          {...props}
+          classes={classes}
+          styles={selectStyles}
+          options={this.props.options}
+          components={components}
+          // value={this.state.single}
+          // onChange={this.handleChange('single')}
+          multi={true}
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          value={this.props.value}
+          isClearable
+        />
+        {props.form.errors[name] && (
+          <FormHelperText>{props.form.errors[name]}</FormHelperText>
+        )}
+      </FormControl>
     );
   }
 }

@@ -4,9 +4,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Select from 'react-select';
+import FormControl from '@material-ui/core/FormControl';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import NoSsr from '@material-ui/core/NoSsr';
+import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
@@ -73,14 +75,14 @@ const styles = theme => ({
   chip: {
     margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
   },
-  // chipFocused: {
-  //   backgroundColor: emphasize(
-  //     theme.palette.type === 'light'
-  //       ? theme.palette.grey[300]
-  //       : theme.palette.grey[700],
-  //     0.08,
-  //   ),
-  // },
+  chipFocused: {
+    backgroundColor: emphasize(
+      theme.palette.type === 'light'
+        ? theme.palette.grey[300]
+        : theme.palette.grey[700],
+      0.08,
+    ),
+  },
   noOptionsMessage: {
     padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
   },
@@ -185,20 +187,6 @@ function ValueContainer(props) {
   );
 }
 
-function MultiValue(props) {
-  return (
-    <Chip
-      tabIndex={-1}
-      label={props.children}
-      className={classNames(props.selectProps.classes.chip, {
-        [props.selectProps.classes.chipFocused]: props.isFocused,
-      })}
-      onDelete={props.removeProps.onClick}
-      deleteIcon={<CancelIcon {...props.removeProps} />}
-    />
-  );
-}
-
 function Menu(props) {
   return (
     <Paper
@@ -211,40 +199,41 @@ function Menu(props) {
   );
 }
 
-// const components = {
-//   Control,
-//   Menu,
-//   MultiValue,
-//   NoOptionsMessage,
-//   Option,
-//   Placeholder,
-//   SingleValue,
-//   ValueContainer,
-// };
 const components = {
-  Control,
+  // Control,
   // Menu,
-  NoOptionsMessage,
-  Option,
-  Placeholder,
+  // NoOptionsMessage,
+  // Option,
+  // Placeholder,
   // SingleValue,
   // ValueContainer,
 };
-class IntegrationReactSelect extends React.Component {
-  state = {
-    single: null,
-    multi: null,
+
+export class SelectFormikReact extends React.Component {
+  // state = {
+  //   single: null,
+  // };
+
+  // handleChange = name => value => {
+  //   this.setState({
+  //     [name]: value,
+  //   });
+  // };
+
+  handleChange = value => {
+    // this is going to call setFieldValue and manually update values.topcis
+    // debugger;
+    this.props.onChange('admins', value);
   };
 
-  handleChange = name => value => {
-    this.setState({
-      [name]: value,
-    });
+  handleBlur = () => {
+    // this is going to call setFieldTouched and manually update touched.topcis
+    this.props.onBlur('admins', true);
   };
 
   render() {
-    const { classes, theme } = this.props;
-
+    const { classes, theme, options } = this.props;
+    console.log('props', this.props);
     const selectStyles = {
       input: base => ({
         ...base,
@@ -256,45 +245,26 @@ class IntegrationReactSelect extends React.Component {
     };
 
     return (
-      <div className={classes.root}>
-        <NoSsr>
-          <Select
-            classes={classes}
-            styles={selectStyles}
-            options={suggestions}
-            components={components}
-            variant='outlined'
-            value={this.state.single}
-            onChange={this.handleChange('single')}
-            placeholder='Search a country (start with a)'
-            isClearable
-          />
-          <div className={classes.divider} />
-          <Select
-            classes={classes}
-            styles={selectStyles}
-            textFieldProps={{
-              label: 'Label',
-              InputLabelProps: {
-                shrink: true,
-              },
-            }}
-            options={suggestions}
-            components={components}
-            value={this.state.multi}
-            onChange={this.handleChange('multi')}
-            placeholder='Select multiple countries'
-            isMulti
-          />
-        </NoSsr>
-      </div>
+      <Select
+        classes={classes}
+        styles={selectStyles}
+        options={this.props.options}
+        // components={components}
+        // value={this.state.single}
+        // onChange={this.handleChange('single')}
+        placeholder="Start typing a user's name or email."
+        onChange={this.handleChange}
+        onBlur={this.handleBlur}
+        value={this.props.value}
+        isClearable
+      />
     );
   }
 }
 
-IntegrationReactSelect.propTypes = {
+SelectFormikReact.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(IntegrationReactSelect);
+export default withStyles(styles, { withTheme: true })(SelectFormikReact);

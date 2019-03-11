@@ -1,5 +1,6 @@
 import axios from 'axios';
+const config = require('./config');
 
 export default axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: config,
 });
