@@ -39,7 +39,7 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    background: 'white',
+    // background: 'white',
     padding: theme.spacing.unit * 3,
     [theme.breakpoints.up('sm')]: {
       marginLeft: drawerWidth,
@@ -58,7 +58,7 @@ class App extends Component {
   }
 
   render() {
-    // console.log('props: ', this.props);
+    //console.log('props: ', this.props);
     const { classes } = this.props;
     return (
       <BrowserRouter>
@@ -71,7 +71,7 @@ class App extends Component {
           <main className={classes.content}>
             {/* <div className={classes.toolbar} /> */}
             <article className={classes.article}>
-              <Typography paragraph>
+              {/* <Typography paragraph>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 Rhoncus dolor purus non enim praesent elementum facilisis leo
@@ -86,24 +86,24 @@ class App extends Component {
                 augue. At augue eget arcu dictum varius duis at consectetur
                 lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
                 sapien faucibus et molestie ac.
-              </Typography>
-              <Paper className={classes.paper}>
-                <Route exact path='/programnew' component={ProgramNew} />
-                <Route exact path='/programs' component={Programs} />
-                {/* <Route
+              </Typography> */}
+              {/* <Paper className={classes.paper}> */}
+              <Route exact path='/programnew' component={ProgramNew} />
+              <Route exact path='/programs' component={Programs} />
+              {/* <Route
                   exact
                   path='/programnewredux'
                   component={ProgramNewRedux}
                 /> */}
-                <Route exact path='/register' component={Register} />
-                <Route exact path='/test' component={Test} />
-                <Route exact path='/formik' component={Formik} />
-                <Route exact path='/formik2' component={Formik2} />
-                <Route exact path='/reservation' component={Reservation} />
-                <Route exact path='/invitation' component={Invitation} />
-                <Route exact path='/autoselect' component={AutoSelect} />
-                <Route exact path='/jared' component={Jared} />
-              </Paper>
+              <Route exact path='/register' component={Register} />
+              <Route exact path='/test' component={Test} />
+              <Route exact path='/formik' component={Formik} />
+              <Route exact path='/formik2' component={Formik2} />
+              <Route exact path='/reservation' component={Reservation} />
+              <Route exact path='/invitation' component={Invitation} />
+              <Route exact path='/autoselect' component={AutoSelect} />
+              <Route exact path='/jared' component={Jared} />
+              {/* </Paper> */}
             </article>
           </main>
         </div>

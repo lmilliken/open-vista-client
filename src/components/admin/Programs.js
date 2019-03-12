@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { Link } from 'react-router-dom';
 import { fetchPrograms } from '../../actions';
 import api from '../../api';
-
+import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -14,14 +14,18 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
-const styles = {
+const styles = theme => ({
   card: {
     minWidth: 275,
+    padding: '30px',
   },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
     transform: 'scale(0.8)',
+  },
+  button: {
+    margin: theme.spacing.unit,
   },
   title: {
     fontSize: 14,
@@ -29,15 +33,13 @@ const styles = {
   pos: {
     marginBottom: 12,
   },
-};
+});
 
 function ProgramCard(props) {
-  const { classes } = props;
+  // console.log('program card props', props);
 
-  console.log('program card type: ', typeof props.dateStart);
-  const date = new Date(props.dateStart);
   return (
-    <Card>
+    <Card className={props.className} style={{ padding: '20px' }}>
       <CardContent>
         <Typography color='textSecondary' gutterBottom>
           {props.type.name}
@@ -53,8 +55,12 @@ function ProgramCard(props) {
         <Typography component='p'>{props.description}</Typography>
       </CardContent>
       <CardActions>
-        <Button size='small'>Manage</Button>
-        <Button size='small'>Edit</Button>
+        <Button variant='contained' color='primary'>
+          Manage
+        </Button>
+        <Button variant='outlined' color='primary'>
+          Edit
+        </Button>
       </CardActions>
     </Card>
   );
@@ -68,17 +74,40 @@ class Programs extends React.Component {
   state = { error: false, programs: [] };
 
   componentDidMount() {
-    api
+    axios
       .get('/api/programs')
       .then(res => this.setState({ programs: res.data, error: false }))
       .catch(e => this.setState({ error: true }));
   }
   render() {
-    console.log('Programs state', this.state);
+    // console.log('Programs props', this.props);
+    const { classes } = this.props;
     if (this.state.error === true) {
       return <p>Something went wrong</p>;
     }
-    return this.state.programs.map(program => <ProgramCard {...program} />);
+    return (
+      <React.Fragment>
+        <Typography variant='h5' style={{ marginBottom: '20px' }}>
+          Programs
+        </Typography>
+        {this.state.programs.map(program => (
+          <ProgramCard
+            className={classes.card}
+            key={program._id}
+            {...program}
+          />
+        ))}
+        <Button
+          className={classes.button}
+          variant='contained'
+          color='primary'
+          component={Link}
+          to='/programnew'
+        >
+          Add New Program
+        </Button>
+      </React.Fragment>
+    );
   }
 }
 const mapStateToProps = ({

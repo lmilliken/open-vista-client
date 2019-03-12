@@ -7,19 +7,22 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
-import isEmpty from 'lodash/isEmpty';
 import TextField from '../common/TextFieldFormik';
 import Select from '../common/SelectFormik';
 import DatePicker from '../common/DatePickerFormik';
 import SelectFormikReact from '../common/SelectAutoFormik';
+import { Typography } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
 
 import { createProgram } from '../../actions';
-import AutoSelect from '../demos/AutoSelect';
-import { Typography } from '@material-ui/core';
+
 const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+  },
+  paper: {
+    padding: 30,
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -76,7 +79,7 @@ class ProgramNew extends React.Component {
       return null;
     }
     const types = this.props.programTypes.types;
-    console.log({ types });
+    //  console.log({ types });
     return types.map(type => (
       <option value={type._id} key={type.id}>
         {type.name}
@@ -89,7 +92,7 @@ class ProgramNew extends React.Component {
       return null;
     }
     const users = this.props.users.users;
-    console.log(this.props.users);
+    // console.log(this.props.users);
     return users.map(user => ({
       value: user._id,
       label: `${user.nameFirst} ${user.nameLast} (${user.email})`,
@@ -97,8 +100,11 @@ class ProgramNew extends React.Component {
   }
 
   render() {
+    // console.log('program new props: ', this.props);
     const typesPending = this.props.programTypes.isPending;
     const usersPending = this.props.users.isPending;
+
+    const { classes } = this.props;
     if (typesPending || usersPending) {
       return <p>Loading...</p>;
     }
@@ -115,101 +121,115 @@ class ProgramNew extends React.Component {
     }
 
     return (
-      <Formik
-        validationSchema={validationSchema}
-        initialValues={initialValues}
-        onSubmit={this.onSubmit}
-        render={props => {
-          const {
-            values,
-            touched,
-            dirty,
-            errors,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            handleReset,
-            setFieldValue,
-            setFieldTouched,
-            isSubmitting,
-          } = props;
-          return (
-            <Form>
-              <Field
-                name='title'
-                label='Title'
-                variant='outlined'
-                fullWidth
-                margin='normal'
-                component={TextField}
-              />
-              <Grid container>
-                <Grid item xs={12} sm={6}>
+      <React.Fragment>
+        <Typography variant='h5' style={{ marginBottom: '20px' }}>
+          Create a New Program
+        </Typography>
+        <Paper className={classes.paper}>
+          <Formik
+            validationSchema={validationSchema}
+            initialValues={initialValues}
+            onSubmit={this.onSubmit}
+            // render={props => {
+            //   const {
+            //     values,
+            //     touched,
+            //     dirty,
+            //     errors,
+            //     handleChange,
+            //     handleBlur,
+            //     handleSubmit,
+            //     handleReset,
+            //     setFieldValue,
+            //     setFieldTouched,
+            //     isSubmitting,
+            //   } = props;
+            render={props => {
+              const {
+                values,
+                touched,
+                errors,
+                setFieldValue,
+                setFieldTouched,
+                isSubmitting,
+              } = props;
+              return (
+                <Form>
                   <Field
-                    name='type'
-                    label='Program Type'
-                    component={Select}
-                    variant='outlined'
-                    fullWidth
-                  >
-                    <option value={null} key='blank' />
-                    {this.getProgramTypeOptions()}
-                    ))}
-                  </Field>
-                </Grid>
-              </Grid>
-              <Field
-                name='description'
-                label='Description'
-                variant='outlined'
-                fullWidth
-                margin='normal'
-                multiline
-                rows='4'
-                component={TextField}
-              />
-              <Grid container spacing={16}>
-                <Grid item xs={12} sm={6}>
-                  <Field
-                    name='dateStart'
-                    label='Start Date'
-                    component={DatePicker}
+                    name='title'
+                    label='Title'
                     variant='outlined'
                     fullWidth
                     margin='normal'
+                    component={TextField}
                   />
-                </Grid>
-                <Grid item xs={12} sm={6}>
+                  <Grid container>
+                    <Grid item xs={12} sm={6}>
+                      <Field
+                        name='type'
+                        label='Program Type'
+                        component={Select}
+                        variant='outlined'
+                        fullWidth
+                      >
+                        <option value={null} key='blank' />
+                        {this.getProgramTypeOptions()}
+                        ))}
+                      </Field>
+                    </Grid>
+                  </Grid>
                   <Field
-                    name='dateEnd'
-                    label='End Date'
+                    name='description'
+                    label='Description'
                     variant='outlined'
                     fullWidth
                     margin='normal'
-                    component={DatePicker}
+                    multiline
+                    rows='4'
+                    component={TextField}
                   />
-                </Grid>
-              </Grid>
-              <Typography style={{ marginTop: '20px' }} variant='subtitle2'>
-                Administator
-              </Typography>
-              <Field
-                name='admins'
-                label='Admins'
-                variant='outlined'
-                fullWidth
-                // margin='normal'
-                placeholder="Start typing a user's name or email."
-                value={values.admins}
-                onChange={setFieldValue}
-                onBlur={setFieldTouched}
-                error={errors.admins}
-                touched={touched.admins}
-                component={SelectFormikReact}
-                options={this.getUsers()}
-              />
+                  <Grid container spacing={16}>
+                    <Grid item xs={12} sm={6}>
+                      <Field
+                        name='dateStart'
+                        label='Start Date'
+                        component={DatePicker}
+                        variant='outlined'
+                        fullWidth
+                        margin='normal'
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Field
+                        name='dateEnd'
+                        label='End Date'
+                        variant='outlined'
+                        fullWidth
+                        margin='normal'
+                        component={DatePicker}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Typography style={{ marginTop: '20px' }} variant='subtitle2'>
+                    Administator
+                  </Typography>
+                  <Field
+                    name='admins'
+                    label='Admins'
+                    variant='outlined'
+                    fullWidth
+                    // margin='normal'
+                    placeholder="Start typing a user's name or email."
+                    value={values.admins}
+                    onChange={setFieldValue}
+                    onBlur={setFieldTouched}
+                    error={errors.admins}
+                    touched={touched.admins}
+                    component={SelectFormikReact}
+                    options={this.getUsers()}
+                  />
 
-              {/* <SelectFormikReact
+                  {/* <SelectFormikReact
                 value={values.admins}
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}
@@ -217,20 +237,23 @@ class ProgramNew extends React.Component {
                 touched={touched.admins}
               /> */}
 
-              <Button
-                type='submit'
-                variant='contained'
-                color='primary'
-                style={{ marginTop: '20px' }}
-                //disabled={isSubmitting || !isEmpty(errors) || !dirty}
-              >
-                Submit
-              </Button>
-              <pre>{JSON.stringify(props, null, 2)}</pre>
-            </Form>
-          );
-        }}
-      /> //Formik
+                  <Button
+                    type='submit'
+                    variant='contained'
+                    color='primary'
+                    style={{ marginTop: '20px' }}
+                    disabled={isSubmitting}
+                    // disabled={isSubmitting || !isEmpty(errors) || !dirty}
+                  >
+                    Submit
+                  </Button>
+                  <pre>{JSON.stringify(props, null, 2)}</pre>
+                </Form>
+              );
+            }}
+          />
+        </Paper>
+      </React.Fragment>
     );
   }
 }

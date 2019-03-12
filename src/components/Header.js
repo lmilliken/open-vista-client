@@ -11,6 +11,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import PublicIcon from '@material-ui/icons/Public';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -193,14 +194,14 @@ class Header extends React.Component {
       <div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
+          <Link style={{ textDecoration: 'none' }} to='/programs'>
+            <ListItem button key='programs'>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <PublicIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary='Programs' />
             </ListItem>
-          ))}
+          </Link>
         </List>
         <Divider />
         <List>
@@ -240,6 +241,8 @@ class Header extends React.Component {
                 className={classes.menuButton}
                 color='inherit'
                 size='large'
+                component={Link}
+                to='/'
               >
                 Open Vista
               </Button>

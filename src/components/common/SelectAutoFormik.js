@@ -246,7 +246,7 @@ export class SelectFormikReact extends React.Component {
 
   render() {
     const { classes, theme, options, ...props } = this.props;
-    console.log('props', this.props);
+    //console.log('props', this.props);
     const selectStyles = {
       input: base => ({
         ...base,
