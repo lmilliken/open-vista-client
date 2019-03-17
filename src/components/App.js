@@ -66,6 +66,7 @@ class App extends Component {
     console.log('props: ', this.props);
     console.log('node environment: ', process.env.NODE_ENV);
     console.log('Environment: ', process.env.ENV);
+    console.log('REACT_APP_ENV: ', process.env.REACT_APP_ENV);
     const { classes } = this.props;
     const rightStyle = this.props.state.auth ? classes.rightStyle : null;
     const contentClasses = [classes.content, rightStyle];
