@@ -23,8 +23,10 @@ import AutoSelect from './demos/AutoSelect';
 import Jared from './demos/Jared';
 import SelectFormik from './common/SelectFormik';
 import Register from './profile/Register';
-
-import { fetchProgramTypes, fetchUsers } from '../actions';
+import Login from './Login';
+import Home from './Home';
+import Profile from './profile/Profile';
+import * as actions from '../actions';
 import SelectAutoFormik from './common/SelectAutoFormik';
 const drawerWidth = 240;
 const styles = theme => ({
@@ -41,6 +43,8 @@ const styles = theme => ({
     flexGrow: 1,
     // background: 'white',
     padding: theme.spacing.unit * 3,
+  },
+  rightStyle: {
     [theme.breakpoints.up('sm')]: {
       marginLeft: drawerWidth,
     },
@@ -55,11 +59,14 @@ class App extends Component {
   componentDidMount() {
     this.props.fetchProgramTypes();
     this.props.fetchUsers();
+    this.props.fetchUser();
   }
 
   render() {
-    //console.log('props: ', this.props);
+    console.log('props: ', this.props);
     const { classes } = this.props;
+    const rightStyle = this.props.state.auth ? classes.rightStyle : null;
+    const contentClasses = [classes.content, rightStyle];
     return (
       <BrowserRouter>
         <div>
@@ -68,7 +75,7 @@ class App extends Component {
 
           {/* <Route exact path='/programnew' component={ProgramNew} />
             <Route exact path='/2019pegasus' component={Pegasus} /> */}
-          <main className={classes.content}>
+          <main className={contentClasses.join(' ')}>
             {/* <div className={classes.toolbar} /> */}
             <article className={classes.article}>
               {/* <Typography paragraph>
@@ -88,6 +95,7 @@ class App extends Component {
                 sapien faucibus et molestie ac.
               </Typography> */}
               {/* <Paper className={classes.paper}> */}
+              <Route exact path='/' component={Home} />
               <Route exact path='/programnew' component={ProgramNew} />
               <Route exact path='/programs' component={Programs} />
               {/* <Route
@@ -96,6 +104,8 @@ class App extends Component {
                   component={ProgramNewRedux}
                 /> */}
               <Route exact path='/register' component={Register} />
+              <Route exact path='/profile' component={Profile} />
+              <Route exact path='/login' component={Login} />
               <Route exact path='/test' component={Test} />
               <Route exact path='/formik' component={Formik} />
               <Route exact path='/formik2' component={Formik2} />
@@ -122,7 +132,7 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
   connect(
     mapStateToProps,
-    { fetchProgramTypes, fetchUsers },
+    actions,
   )(App),
 ); //this makes all of the actions assigned to App as props so you can call them with this.props. fetchUser()
 // export default App;

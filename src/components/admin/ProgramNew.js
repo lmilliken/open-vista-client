@@ -81,7 +81,7 @@ class ProgramNew extends React.Component {
     const types = this.props.programTypes.types;
     //  console.log({ types });
     return types.map(type => (
-      <option value={type._id} key={type.id}>
+      <option value={type._id} key={type._id}>
         {type.name}
       </option>
     ));

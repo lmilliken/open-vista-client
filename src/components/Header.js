@@ -19,6 +19,8 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
+import ExitToApp from '@material-ui/icons/ExitToApp';
+import Person from '@material-ui/icons/Person';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -112,8 +114,8 @@ class Header extends React.Component {
     this.setState({ anchorEl: null });
   };
 
-  renderContent() {
-    //console.log('props in Header renderContent(): ', this.props);
+  renderTopContent() {
+    //  console.log('props in Header renderTopContent(): ', this.props);
     const open = Boolean(this.state.anchorEl);
     switch (this.props.auth) {
       case null:
@@ -124,14 +126,9 @@ class Header extends React.Component {
             <Button color='inherit' component={Link} to='/login'>
               Login
             </Button>
-            <Button
-              variant='contained'
-              color='secondary'
-              component={Link}
-              to='/register'
-            >
+            {/* <Button variant='outlined' component={Link} to='/register'>
               Sign Up
-            </Button>
+            </Button> */}
           </Fragment>
         );
       default:
@@ -166,7 +163,9 @@ class Header extends React.Component {
               >
                 Profile
               </MenuItem>
-              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+              <MenuItem onClick={e => (window.location.href = '/auth/logout')}>
+                Logout
+              </MenuItem>
             </Menu>
           </Fragment>
         );
@@ -205,14 +204,29 @@ class Header extends React.Component {
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
+          <Link style={{ textDecoration: 'none' }} to='/profile'>
+            <ListItem button key='profile'>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <Person />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary='Profile' />
             </ListItem>
-          ))}
+          </Link>
+
+          <ListItem
+            button
+            key='logout'
+            style={{ textDecoration: 'none' }}
+            onClick={e => {
+              e.preventDefault();
+              window.location.href = '/auth/logout';
+            }}
+          >
+            <ListItemIcon>
+              <ExitToApp />
+            </ListItemIcon>
+            <ListItemText primary='Log Out' />
+          </ListItem>
         </List>
       </div>
     );
@@ -247,7 +261,7 @@ class Header extends React.Component {
                 Open Vista
               </Button>
             </Typography>
-            {this.renderContent()}
+            {this.renderTopContent()}
           </Toolbar>
         </AppBar>
 
@@ -281,41 +295,43 @@ class Header extends React.Component {
             ))}
           </List>
         </Drawer> */}
-        <nav className={classes.drawer}>
-          <Hidden smUp implementation='css'>
-            <Drawer
-              // container={this.props.container}
-              variant='temporary'
-              className={classes.drawer}
-              // anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={this.state.mobileOpen}
-              onClose={this.handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-            >
-              <div className={classes.drawerHeader}>
-                <IconButton onClick={this.handleDrawerClose}>
-                  <ChevronLeftIcon />
-                </IconButton>
-              </div>
-              {drawer}
-            </Drawer>
-          </Hidden>
+        {this.props.auth && (
+          <nav className={classes.drawer}>
+            <Hidden smUp implementation='css'>
+              <Drawer
+                // container={this.props.container}
+                variant='temporary'
+                className={classes.drawer}
+                // anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                open={this.state.mobileOpen}
+                onClose={this.handleDrawerToggle}
+                classes={{
+                  paper: classes.drawerPaper,
+                }}
+              >
+                <div className={classes.drawerHeader}>
+                  <IconButton onClick={this.handleDrawerClose}>
+                    <ChevronLeftIcon />
+                  </IconButton>
+                </div>
+                {drawer}
+              </Drawer>
+            </Hidden>
 
-          <Hidden xsDown implementation='css'>
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              variant='permanent'
-              open
-            >
-              <div className={classes.toolbar} />
-              {drawer}
-            </Drawer>
-          </Hidden>
-        </nav>
+            <Hidden xsDown implementation='css'>
+              <Drawer
+                classes={{
+                  paper: classes.drawerPaper,
+                }}
+                variant='permanent'
+                open
+              >
+                <div className={classes.toolbar} />
+                {drawer}
+              </Drawer>
+            </Hidden>
+          </nav>
+        )}
       </div>
     );
   }
