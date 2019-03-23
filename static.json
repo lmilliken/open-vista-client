@@ -1,0 +1,10 @@
+{
+  "proxies": {
+    "/api/": {
+      "origin": "https://open-vista-sdev.herokuapp.com/"
+    },
+    "/auth/": {
+      "origin": "https://open-vista-sdev.herokuapp.com/"
+    }
+  }
+}
