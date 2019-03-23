@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -7,10 +6,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 
-import FormLabel from '@material-ui/core/FormLabel';
-
 // {
-//     label,
 //     children,
 //     field: { /* value, */ ...fields },
 //     form: { touched, errors, ...rest },
@@ -19,34 +15,38 @@ import FormLabel from '@material-ui/core/FormLabel';
 const MaterialInput = ({
   label,
   children,
-  field: { /* value, */ ...fields },
-  form: { touched, errors, ...rest },
+  field,
+  form: { touched, errors },
   ...props
 }) => {
-  //  console.log(props);
-  // console.log({ value });
-  //console.log({ fields });
+  // console.log(props);
+  //  console.log({ field });
+  // console.log({ attributes });
   //   console.log({ ...props });
-  //   console.log({ fields });
+  //   console.log({ attributes });
   //   console.log({ ...rest });
   //   console.log({ touched });
-  //   console.log({ errors });
-  const name = fields.name;
+  // console.log({ errors });
+
   return (
-    <FormControl {...props} error={touched[fields.name] && errors[fields.name]}>
+    <FormControl
+      {...props}
+      error={errors[field.name] || (touched[field.name] && errors[field.name])}
+    >
       <InputLabel>{label}</InputLabel>
       <Select
         native
-        {...fields}
-        input={<OutlinedInput name={fields.name} labelWidth={100} />}
+        {...field}
+        input={<OutlinedInput name={field.name} labelWidth={100} />}
       >
         {children}
       </Select>
-      {errors[fields.name] && (
-        <FormHelperText>{errors[fields.name]}</FormHelperText>
+      {errors[field.name] && (
+        <FormHelperText>{errors[field.name]}</FormHelperText>
       )}
     </FormControl>
   );
+  //  return null;
 };
 
 export default MaterialInput;

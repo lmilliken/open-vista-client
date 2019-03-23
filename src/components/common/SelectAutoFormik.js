@@ -73,6 +73,7 @@ const styles = theme => ({
     flex: 1,
     alignItems: 'center',
     overflow: 'hidden',
+    paddingLeft: 10,
   },
   chip: {
     margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
@@ -246,7 +247,7 @@ export class SelectFormikReact extends React.Component {
 
   render() {
     const { classes, theme, options, ...props } = this.props;
-    //console.log('props', this.props);
+    console.log('props', this.props);
     const selectStyles = {
       input: base => ({
         ...base,
@@ -259,7 +260,7 @@ export class SelectFormikReact extends React.Component {
     const name = props.field.name;
 
     return (
-      <FormControl {...props} error>
+      <FormControl {...props} error={true}>
         <Select
           {...props}
           classes={classes}

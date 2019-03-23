@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '../common/TextFieldFormik';
 import Select from '../common/SelectFormik';
 import DatePicker from '../common/DatePickerFormik';
-import SelectFormikReact from '../common/SelectAutoFormik';
+import SelectAutoFormik from '../common/SelectAutoFormik';
 import { Typography } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 
@@ -36,26 +36,19 @@ const styles = theme => ({
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required('Title is required.'),
-  programType: Yup.string().required('Program type is required.'),
+  type: Yup.string().required('Program type is required.'),
   description: Yup.string().required('Description is required'),
   dateStart: Yup.date().required('Start date is required.'),
   dateEnd: Yup.date().required('Start date is required.'),
-  admins: Yup.array()
-    .of(
-      Yup.object().shape({
-        label: Yup.string().required(),
-        value: Yup.string().required(),
-      }),
-    )
-    .nullable(),
+  admins: Yup.string().required('Administrator is required.'),
 });
 
 const initialValues = {
   title: 'Title',
   description: 'Description',
   programType: '5c77af995d7aa31db8cf3878',
-  dateStart: '03/07/2019',
-  dateEnd: '04/01/2019',
+  dateStart: '',
+  dateEnd: '',
   admins: [],
 };
 
@@ -214,8 +207,8 @@ class ProgramNew extends React.Component {
                     Administator
                   </Typography>
                   <Field
-                    name='admins'
-                    label='Admins'
+                    name='admin'
+                    label='Administrator'
                     variant='outlined'
                     fullWidth
                     // margin='normal'
@@ -225,18 +218,9 @@ class ProgramNew extends React.Component {
                     onBlur={setFieldTouched}
                     error={errors.admins}
                     touched={touched.admins}
-                    component={SelectFormikReact}
+                    component={SelectAutoFormik}
                     options={this.getUsers()}
                   />
-
-                  {/* <SelectFormikReact
-                value={values.admins}
-                onChange={setFieldValue}
-                onBlur={setFieldTouched}
-                error={errors.admins}
-                touched={touched.admins}
-              /> */}
-
                   <Button
                     type='submit'
                     variant='contained'

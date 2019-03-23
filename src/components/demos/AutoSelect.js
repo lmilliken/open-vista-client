@@ -11,6 +11,9 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import List from '@material-ui/core/List';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 
@@ -73,14 +76,14 @@ const styles = theme => ({
   chip: {
     margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
   },
-  // chipFocused: {
-  //   backgroundColor: emphasize(
-  //     theme.palette.type === 'light'
-  //       ? theme.palette.grey[300]
-  //       : theme.palette.grey[700],
-  //     0.08,
-  //   ),
-  // },
+  chipFocused: {
+    backgroundColor: emphasize(
+      theme.palette.type === 'light'
+        ? theme.palette.grey[300]
+        : theme.palette.grey[700],
+      0.08,
+    ),
+  },
   noOptionsMessage: {
     padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
   },
@@ -185,20 +188,6 @@ function ValueContainer(props) {
   );
 }
 
-function MultiValue(props) {
-  return (
-    <Chip
-      tabIndex={-1}
-      label={props.children}
-      className={classNames(props.selectProps.classes.chip, {
-        [props.selectProps.classes.chipFocused]: props.isFocused,
-      })}
-      onDelete={props.removeProps.onClick}
-      deleteIcon={<CancelIcon {...props.removeProps} />}
-    />
-  );
-}
-
 function Menu(props) {
   return (
     <Paper
@@ -211,25 +200,16 @@ function Menu(props) {
   );
 }
 
-// const components = {
-//   Control,
-//   Menu,
-//   MultiValue,
-//   NoOptionsMessage,
-//   Option,
-//   Placeholder,
-//   SingleValue,
-//   ValueContainer,
-// };
 const components = {
   Control,
-  // Menu,
+  Menu,
   NoOptionsMessage,
   Option,
   Placeholder,
-  // SingleValue,
-  // ValueContainer,
+  SingleValue,
+  ValueContainer,
 };
+
 class IntegrationReactSelect extends React.Component {
   state = {
     single: null,
@@ -263,29 +243,20 @@ class IntegrationReactSelect extends React.Component {
             styles={selectStyles}
             options={suggestions}
             components={components}
-            variant='outlined'
             value={this.state.single}
             onChange={this.handleChange('single')}
             placeholder='Search a country (start with a)'
             isClearable
           />
           <div className={classes.divider} />
-          <Select
-            classes={classes}
-            styles={selectStyles}
-            textFieldProps={{
-              label: 'Label',
-              InputLabelProps: {
-                shrink: true,
-              },
-            }}
-            options={suggestions}
-            components={components}
-            value={this.state.multi}
-            onChange={this.handleChange('multi')}
-            placeholder='Select multiple countries'
-            isMulti
-          />
+          <List component='nav'>
+            <ListItem>
+              <ListItemText primary='Trash' />
+            </ListItem>
+            <ListItem>
+              <ListItemText primary='Spam' />
+            </ListItem>
+          </List>
         </NoSsr>
       </div>
     );

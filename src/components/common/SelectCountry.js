@@ -11,23 +11,26 @@ const renderSelectField = ({
   meta: { touched, error },
   children,
   ...custom
-}) => (
-  <FormControl error={touched && error}>
-    <InputLabel htmlFor='age-native-simple'>{label}</InputLabel>
-    <Select
-      native
-      {...input}
-      {...custom}
-      inputProps={{
-        name: 'age',
-        id: 'age-native-simple',
-      }}
-    >
-      {children}
-    </Select>
-    {renderFromHelper({ touched, error })}
-  </FormControl>
-);
+}) => {
+  console.log({ error });
+  return (
+    <FormControl error={touched && error}>
+      <InputLabel htmlFor='age-native-simple'>{label}</InputLabel>
+      <Select
+        native
+        {...input}
+        {...custom}
+        inputProps={{
+          name: 'age',
+          id: 'age-native-simple',
+        }}
+      >
+        {children}
+      </Select>
+      {renderFromHelper({ touched, error })}
+    </FormControl>
+  );
+};
 
 const renderFromHelper = ({ touched, error }) => {
   if (!(touched && error)) {
