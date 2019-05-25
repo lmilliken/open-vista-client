@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -28,31 +28,34 @@ import Home from './Home';
 import Profile from './profile/Profile';
 import * as actions from '../actions';
 import SelectAutoFormik from './common/SelectAutoFormik';
+
+const apiRegex = /\/api\/.*/;
+
 const drawerWidth = 240;
 const styles = theme => ({
   root: {
     display: 'flex',
-    flexGrow: 1,
+    flexGrow: 1
     // margin: '50px'
   },
   paper: {
     margin: 'auto',
-    padding: 30,
+    padding: 30
   },
   content: {
     flexGrow: 1,
     // background: 'white',
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 3
   },
   rightStyle: {
     [theme.breakpoints.up('sm')]: {
-      marginLeft: drawerWidth,
-    },
+      marginLeft: drawerWidth
+    }
   },
   article: {
     margin: 'auto',
-    maxWidth: 760,
-  },
+    maxWidth: 760
+  }
 });
 
 class App extends Component {
@@ -116,6 +119,17 @@ class App extends Component {
               <Route exact path='/invitation' component={Invitation} />
               <Route exact path='/autoselect' component={AutoSelect} />
               <Route exact path='/jared' component={Jared} />
+              <Route exact path='/auth/google' component={Jared} />
+              {/* <Route
+                exact
+                path={apiRegex}
+                render={props => {
+                  console.log('redirect', window.location.pathname);
+                  window.location.href =
+                    `http://localhost:5000` + window.location.pathname;
+                }}
+              /> */}
+
               {/* </Paper> */}
             </article>
           </main>
@@ -135,7 +149,7 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
   connect(
     mapStateToProps,
-    actions,
-  )(App),
+    actions
+  )(App)
 ); //this makes all of the actions assigned to App as props so you can call them with this.props. fetchUser()
 // export default App;

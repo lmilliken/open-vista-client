@@ -6,6 +6,7 @@
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
+    "express-http-proxy": "^1.5.1",
     "formik": "^1.5.1",
     "http-proxy-middleware": "^0.19.1",
     "lodash": "^4.17.11",
@@ -22,7 +23,10 @@
     "yup": "^0.26.10"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "reactStart": "react-scripts start",
+    "start": "node serve.js",
+    "dev": "react-scripts start",
+    "server": "nodemon serve.js",
     "build": "REACT_APP_ENV=production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -39,5 +43,6 @@
   "engines": {
     "node": "10.15.1",
     "npm": "6.4.1"
-  }
+  },
+  "proxy": "http://localhost:5000"
 }

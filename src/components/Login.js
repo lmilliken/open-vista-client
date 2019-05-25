@@ -26,8 +26,8 @@ const styles = theme => ({
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
       width: 400,
       marginLeft: 'auto',
-      marginRight: 'auto',
-    },
+      marginRight: 'auto'
+    }
   },
   paper: {
     marginTop: theme.spacing.unit * 8,
@@ -35,19 +35,19 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`,
+      .spacing.unit * 3}px`
   },
   avatar: {
     margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing.unit
   },
   submit: {
-    marginTop: theme.spacing.unit * 3,
-  },
+    marginTop: theme.spacing.unit * 3
+  }
 });
 
 // class Signin extends React.Component {
@@ -80,6 +80,10 @@ class Login extends React.Component {
       .catch(err => this.setState({ error: 'Invalid Credentials' }));
   };
 
+  handleClick = async e => {
+    const response = await axios.get('/api/test');
+    console.log({ response });
+  };
   handleEmail = e => {
     this.setState({ email: e.target.value });
   };
@@ -154,12 +158,9 @@ class Login extends React.Component {
           <Button
             variant='contained'
             color='secondary'
-            onClick={e => {
-              e.preventDefault();
-              window.location.href = '/auth/google';
-            }}
+            onClick={this.handleClick}
           >
-            Google
+            axios /api/test
           </Button>
 
           <Button
@@ -167,10 +168,10 @@ class Login extends React.Component {
             color='secondary'
             onClick={e => {
               e.preventDefault();
-              window.location.href = '/auth/google';
+              window.location.href = '/api/test';
             }}
           >
-            Facebook
+            href /api/test
           </Button>
         </Paper>
 
@@ -187,12 +188,12 @@ class Login extends React.Component {
 // }}>
 
 Login.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(
   connect(
     null,
-    { fetchUser },
-  )(Login),
+    { fetchUser }
+  )(Login)
 );
