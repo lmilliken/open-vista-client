@@ -20,7 +20,7 @@ app.get('/test', (req, res) => {
   res.send('/test is working, this is from the CLIENT');
 });
 
-app.use('/api', proxy('https://open-vista-sdev.herokuapp.com'));
+app.use('/api', proxy('https://open-vista-sdev.herokuapp.com/api'));
 
 // app.use('/api', proxy('http://localhost:5000'));
 
