@@ -20,16 +20,17 @@ app.get('/test', (req, res) => {
   res.send('/test is working, this is from the CLIENT');
 });
 
+// Allow static files
+app.use(express.static(path.join(__dirname, 'build')));
+
 // Setup proxy of API routes
-//see https://stackoverflow.com/questions/10435407/proxy-with-express-js/32756976#32756976
+// see https://stackoverflow.com/questions/10435407/proxy-with-express-js/32756976#32756976
 const apiProxy = proxy('https://open-vista-sdev.herokuapp.com/api', {
   forwardPath: req => url.parse(req.baseUrl).path
 });
 app.use('/api/*', apiProxy);
 
-// Allow static files
-app.use(express.static(path.join(__dirname, 'build')));
-
+// finally, if you get here, you want a file or route from the React static build
 app.use('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
