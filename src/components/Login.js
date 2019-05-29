@@ -154,27 +154,53 @@ class Login extends React.Component {
               Sign in
             </Button>
           </form>
-          <Typography>Or signin with</Typography>
-          <Button
-            variant='contained'
-            color='secondary'
-            onClick={this.handleClick}
-          >
-            axios /api/test
-          </Button>
 
-          <Button
+          {/* <Button
             variant='contained'
-            color='secondary'
+            color='primary'
             onClick={e => {
               e.preventDefault();
-              window.location.href = '/api/test';
+              window.location.href = '/auth/google';
             }}
           >
-            href /api/test
-          </Button>
+            Google proxy href = '/auth/google'
+          </Button> */}
         </Paper>
-
+        <Typography>Or signin with</Typography>
+        {/* <Button
+            variant='contained'
+            color='primary'
+            onClick={e => {
+              e.preventDefault();
+              window.location.href = 'http://localhost:5000/auth/google';
+            }}
+          >
+            Google href = 'http://localhost:5000/auth/google'
+          </Button> */}
+        <a href='http://localhost:5000/auth/google'>
+          Google (href = 'http://localhost:5000/auth/google')
+        </a>
+        <br />
+        <br />
+        <a href='https://open-vista-sdev.herokuapp.com/auth/google'>
+          Google (href = ''https://open-vista-sdev.herokuapp.com/auth/google')
+        </a>
+        {/* <Button
+            variant='contained'
+            color='primary'
+            onClick={e => {
+              e.preventDefault();
+              window.location.href =
+                'https://open-vista-sdev.herokuapp.com/auth/google';
+            }}
+          >
+            Google href = 'http://localhost:5000/auth/google'
+          </Button> */}
+        <br />
+        <br />
+        <a href='/auth/google'>Google proxied (href ='/auth/google')</a>
+        <br />
+        <br />
         <Typography component={Link} to='/register'>
           Don't have a login? Signup.
         </Typography>

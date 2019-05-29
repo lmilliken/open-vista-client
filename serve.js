@@ -30,6 +30,11 @@ const apiProxy = proxy('https://open-vista-sdev.herokuapp.com/api', {
 });
 app.use('/api/*', apiProxy);
 
+const authProxy = proxy('https://open-vista-sdev.herokuapp.com/auth', {
+  forwardPath: req => url.parse(req.baseUrl).path
+});
+app.use('/auth/*', authProxy);
+
 // finally, if you get here, you want a file or route from the React static build
 app.use('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));

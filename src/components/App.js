@@ -67,9 +67,7 @@ class App extends Component {
 
   render() {
     console.log('props: ', this.props);
-    // console.log('node environment: ', process.env.NODE_ENV);
-    // console.log('Environment: ', process.env.ENV);
-    console.log('REACT_APP_ENV: ', process.env.REACT_APP_ENV);
+
     const { classes } = this.props;
     const rightStyle = this.props.state.auth ? classes.rightStyle : null;
     const contentClasses = [classes.content, rightStyle];
@@ -119,18 +117,6 @@ class App extends Component {
               <Route exact path='/invitation' component={Invitation} />
               <Route exact path='/autoselect' component={AutoSelect} />
               <Route exact path='/jared' component={Jared} />
-              <Route exact path='/auth/google' component={Jared} />
-              {/* <Route
-                exact
-                path={apiRegex}
-                render={props => {
-                  console.log('redirect', window.location.pathname);
-                  window.location.href =
-                    `http://localhost:5000` + window.location.pathname;
-                }}
-              /> */}
-
-              {/* </Paper> */}
             </article>
           </main>
         </div>
