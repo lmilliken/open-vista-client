@@ -110,7 +110,7 @@ class App extends Component {
               <Route exact path='/register' component={Register} />
               <Route exact path='/profile' component={Profile} />
               <Route exact path='/login' component={Login} />
-              <Route exact path='/test' component={Test} />
+              <Route exact path='/awesome' component={Test} />
               <Route exact path='/formik' component={Formik} />
               <Route exact path='/formik2' component={Formik2} />
               <Route exact path='/reservation' component={Reservation} />
