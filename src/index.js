@@ -11,7 +11,11 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from './components/theme';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
+const store = createStore(
+  reducers,
+  { auth: { authenticated: localStorage.getItem('token') } },
+  applyMiddleware(reduxThunk)
+);
 
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
@@ -20,5 +24,5 @@ ReactDOM.render(
       <App />
     </Provider>
   </MuiThemeProvider>,
-  document.querySelector('#root'),
+  document.querySelector('#root')
 );

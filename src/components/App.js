@@ -24,6 +24,8 @@ import Jared from './demos/Jared';
 import SelectFormik from './common/SelectFormik';
 import Register from './profile/Register';
 import Signup from './profile/Signup';
+import Signout from './profile/Signout';
+import Signin from './profile/Signin';
 import Login from './Login';
 import Home from './Home';
 import Profile from './profile/Profile';
@@ -110,7 +112,8 @@ class App extends Component {
                 /> */}
               <Route exact path='/register' component={Register} />
               <Route exact path='/signup' component={Signup} />
-
+              <Route exact path='/signout' component={Signout} />
+              <Route exact path='/signin' component={Signin} />
               <Route exact path='/profile' component={Profile} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/awesome' component={Test} />

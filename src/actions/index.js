@@ -28,10 +28,27 @@ export const signup = (formProps, callback) => async dispatch => {
   try {
     const response = await axios.post(apidomain + '/auth/register', formProps);
     dispatch({ type: AUTH_USER, payload: response.data.token });
+    localStorage.setItem('token', response.data.token);
     callback(); //to redirect user
   } catch (e) {
     dispatch({ type: AUTH_ERROR, payload: 'Choose another email.' });
   }
+};
+
+export const signin = (formProps, callback) => async dispatch => {
+  try {
+    const response = await axios.post(apidomain + '/auth/login', formProps);
+    dispatch({ type: AUTH_USER, payload: response.data.token });
+    localStorage.setItem('token', response.data.token);
+    callback(); //to redirect user
+  } catch (e) {
+    dispatch({ type: AUTH_ERROR, payload: 'Invalid login credentials.' });
+  }
+};
+
+export const signout = () => {
+  localStorage.removeItem('token');
+  return { type: AUTH_USER, payload: '' };
 };
 
 export const fetchUser = () => async dispatch => {

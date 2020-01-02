@@ -179,6 +179,25 @@ class Header extends React.Component {
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
+
+  renderLinks() {
+    if (this.props.authenticated) {
+      return (
+        <Fragment>
+          <Link to='/signout'>Sign Out</Link>
+          <Link to='/profile'>Profile</Link>
+        </Fragment>
+      );
+    } else {
+      return (
+        <Fragment>
+          <Link to='/signup'>Sign Up</Link>
+          <Link to='/signin'>Sign In</Link>
+        </Fragment>
+      );
+    }
+  }
+
   render() {
     const { classes, theme } = this.props;
 
@@ -234,12 +253,8 @@ class Header extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position='static'>
-          <Link to='/'>Test</Link>
-          <Link to='/signup'>Sign Up</Link>
-          <Link to='/login'>Sign In</Link>
-          <Link to='/signout'>Sign Out</Link>
-          <Link to='/profile'>Profile</Link>
-
+          <Link to='/'>Home</Link>
+          {this.renderLinks()}
           <Toolbar>
             <Hidden smUp implementation='css'>
               <IconButton
@@ -346,9 +361,13 @@ class Header extends React.Component {
 Header.propTypes = {
   classes: PropTypes.object.isRequired
 };
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = state => {
   // console.log('hearder auth: ', auth);
-  return { auth };
+  return { authenticated: state.auth.authenticated };
 };
 
+// const mapStateToProps = ({ auth }) => {
+//   // console.log('hearder auth: ', auth);
+//   return { auth };
+// };
 export default withStyles(styles)(connect(mapStateToProps)(Header));
