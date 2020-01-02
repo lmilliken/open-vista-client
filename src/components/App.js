@@ -23,6 +23,7 @@ import AutoSelect from './demos/AutoSelect';
 import Jared from './demos/Jared';
 import SelectFormik from './common/SelectFormik';
 import Register from './profile/Register';
+import Signup from './profile/Signup';
 import Login from './Login';
 import Home from './Home';
 import Profile from './profile/Profile';
@@ -108,6 +109,8 @@ class App extends Component {
                   component={ProgramNewRedux}
                 /> */}
               <Route exact path='/register' component={Register} />
+              <Route exact path='/signup' component={Signup} />
+
               <Route exact path='/profile' component={Profile} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/awesome' component={Test} />
@@ -132,10 +135,5 @@ const mapStateToProps = state => {
 
 // export default (connect(mapStateToProps)
 
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    actions
-  )(App)
-); //this makes all of the actions assigned to App as props so you can call them with this.props. fetchUser()
+export default withStyles(styles)(connect(mapStateToProps, actions)(App)); //this makes all of the actions assigned to App as props so you can call them with this.props. fetchUser()
 // export default App;

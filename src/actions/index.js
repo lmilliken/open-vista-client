@@ -11,9 +11,28 @@ import {
   CREATE_PROGRAM_PENDING,
   CREATE_PROGRAM_SUCCESS,
   CREATE_PROGRAM_ERROR,
-  FETCH_USER
+  FETCH_USER,
+  AUTH_USER,
+  AUTH_ERROR
 } from './types';
+
 import axios from 'axios';
+
+const apidomain =
+  process.env.NODE_ENV === 'production'
+    ? 'https://open-vista-dev.herokuapp.com'
+    : 'http://localhost:5000';
+
+//formProps = { email, password }
+export const signup = (formProps, callback) => async dispatch => {
+  try {
+    const response = await axios.post(apidomain + '/auth/register', formProps);
+    dispatch({ type: AUTH_USER, payload: response.data.token });
+    callback(); //to redirect user
+  } catch (e) {
+    dispatch({ type: AUTH_ERROR, payload: 'Choose another email.' });
+  }
+};
 
 export const fetchUser = () => async dispatch => {
   const response = await axios.get('/auth/current_user');

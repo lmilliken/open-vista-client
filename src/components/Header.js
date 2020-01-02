@@ -29,15 +29,15 @@ import MailIcon from '@material-ui/icons/Mail';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 const styless = {
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   grow: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
     marginLeft: -12,
-    marginRight: 10,
-  },
+    marginRight: 10
+  }
 };
 
 const drawerWidth = 240;
@@ -45,10 +45,10 @@ const drawerWidth = 240;
 const styles = theme => ({
   root: {
     display: 'flex',
-    flexGrow: 1,
+    flexGrow: 1
   },
   grow: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   // drawer: {
   //   [theme.breakpoints.up('sm')]: {
@@ -57,7 +57,7 @@ const styles = theme => ({
   //   },
   // },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+    zIndex: theme.zIndex.drawer + 1
     // marginLeft: drawerWidth,
     // [theme.breakpoints.up('sm')]: {
     //   width: `calc(100% - ${drawerWidth}px)`,
@@ -71,30 +71,30 @@ const styles = theme => ({
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0,
+    flexShrink: 0
   },
   toolbar: theme.mixins.toolbar, //pushes drawer down below toolbar
   drawerPaper: {
-    width: drawerWidth,
+    width: drawerWidth
   },
   drawerHeader: {
     display: 'flex',
     alignItems: 'center',
     padding: '0 8px',
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-end'
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-  },
+    padding: theme.spacing.unit * 3
+  }
 });
 
 class Header extends React.Component {
   state = {
     auth: true,
     anchorEl: null,
-    mobileOpen: false,
+    mobileOpen: false
   };
 
   // handleChange = event => {
@@ -147,11 +147,11 @@ class Header extends React.Component {
               anchorEl={this.state.anchorEl}
               anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'right'
               }}
               transformOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'right'
               }}
               open={open}
               onClose={this.handleClose}
@@ -234,6 +234,12 @@ class Header extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position='static'>
+          <Link to='/'>Test</Link>
+          <Link to='/signup'>Sign Up</Link>
+          <Link to='/login'>Sign In</Link>
+          <Link to='/signout'>Sign Out</Link>
+          <Link to='/profile'>Profile</Link>
+
           <Toolbar>
             <Hidden smUp implementation='css'>
               <IconButton
@@ -306,7 +312,7 @@ class Header extends React.Component {
                 open={this.state.mobileOpen}
                 onClose={this.handleDrawerToggle}
                 classes={{
-                  paper: classes.drawerPaper,
+                  paper: classes.drawerPaper
                 }}
               >
                 <div className={classes.drawerHeader}>
@@ -321,7 +327,7 @@ class Header extends React.Component {
             <Hidden xsDown implementation='css'>
               <Drawer
                 classes={{
-                  paper: classes.drawerPaper,
+                  paper: classes.drawerPaper
                 }}
                 variant='permanent'
                 open
@@ -338,7 +344,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 const mapStateToProps = ({ auth }) => {
   // console.log('hearder auth: ', auth);
