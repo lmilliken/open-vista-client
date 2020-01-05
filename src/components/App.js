@@ -31,6 +31,7 @@ import Home from './Home';
 import Profile from './profile/Profile';
 import * as actions from '../actions';
 import SelectAutoFormik from './common/SelectAutoFormik';
+import queryString from 'query-string';
 
 const apiRegex = /\/api\/.*/;
 
@@ -62,6 +63,15 @@ const styles = theme => ({
 });
 
 class App extends Component {
+  componentWillMount() {
+    this.props.checkAuthToken();
+    // var query = queryString.parse(window.location.search);
+    // if (query.token) {
+    //   window.localStorage.setItem('token', query.token);
+    //   // this.props.history.push('/');
+    // }
+  }
+
   componentDidMount() {
     this.props.fetchProgramTypes();
     this.props.fetchUsers();

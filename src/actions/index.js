@@ -15,6 +15,7 @@ import {
   AUTH_USER,
   AUTH_ERROR
 } from './types';
+import queryString from 'query-string';
 
 import axios from 'axios';
 
@@ -43,6 +44,16 @@ export const signin = (formProps, callback) => async dispatch => {
     callback(); //to redirect user
   } catch (e) {
     dispatch({ type: AUTH_ERROR, payload: 'Invalid login credentials.' });
+  }
+};
+
+export const checkAuthToken = () => async dispatch => {
+  var query = queryString.parse(window.location.search);
+  if (query.token) {
+    dispatch({ type: AUTH_USER, payload: query.token });
+    window.localStorage.setItem('token', query.token);
+    console.log('got an token', query.token);
+    // this.props.history.push('/');
   }
 };
 
