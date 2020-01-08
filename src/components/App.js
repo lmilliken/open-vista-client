@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 import PrivateRoute from './PrivateRoute';
 import MenuVertical from './MenuVertical';
 import Header from './Header';
@@ -14,7 +15,7 @@ import ProgramNewRedux from './admin/ProgramNewRedux';
 import ProgramNew from './admin/ProgramNew';
 import Programs from './admin/Programs';
 import Pegasus from './Pegasus';
-import Test from './demos/Test';
+import Test from './demos/ProfileTest';
 import Formik from './demos/Formik';
 import Formik2 from './demos/Formik2';
 import Reservation from './demos/Reservation';
@@ -49,7 +50,7 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     // background: 'white',
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing(3)
   },
   rightStyle: {
     [theme.breakpoints.up('sm')]: {
@@ -73,7 +74,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchProgramTypes();
+    this.props.fetchExpertAreas();
+    // this.props.fetchProgramTypes();
     this.props.fetchUsers();
     this.props.fetchUser();
   }
@@ -94,8 +96,8 @@ class App extends Component {
             <Route exact path='/2019pegasus' component={Pegasus} /> */}
           <main className={contentClasses.join(' ')}>
             {/* <div className={classes.toolbar} /> */}
-            <article className={classes.article}>
-              {/* <Typography paragraph>
+            <Container maxWidth='lg'>
+              <Typography paragraph>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 Rhoncus dolor purus non enim praesent elementum facilisis leo
@@ -110,11 +112,11 @@ class App extends Component {
                 augue. At augue eget arcu dictum varius duis at consectetur
                 lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
                 sapien faucibus et molestie ac.
-              </Typography> */}
+              </Typography>
               {/* <Paper className={classes.paper}> */}
               <Route exact path='/' component={Home} />
-              <Route exact path='/programnew' component={ProgramNew} />
-              <Route exact path='/programs' component={Programs} />
+              {/* <Route exact path='/programnew' component={ProgramNew} /> */}
+              {/* <Route exact path='/programs' component={Programs} /> */}
               {/* <Route
                   exact
                   path='/programnewredux'
@@ -133,7 +135,8 @@ class App extends Component {
               <Route exact path='/invitation' component={Invitation} />
               <Route exact path='/autoselect' component={AutoSelect} />
               <Route exact path='/jared' component={Jared} />
-            </article>
+              <Route exact path='/test' component={Test} />
+            </Container>
           </main>
         </div>
       </BrowserRouter>
@@ -142,11 +145,9 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-  //console.log('state in mSP: ', state);
+  //  console.log('state in mSP: ', state);
   return { state };
 };
 
-// export default (connect(mapStateToProps)
-
-export default withStyles(styles)(connect(mapStateToProps, actions)(App)); //this makes all of the actions assigned to App as props so you can call them with this.props. fetchUser()
+export default withStyles(styles)(connect(mapStateToProps, actions)(App)); //connect() makes all of the actions assigned to App as props so you can call them with this.props. fetchUser()
 // export default App;

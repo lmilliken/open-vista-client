@@ -12,8 +12,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 
-import EditExpertAreasForm from './EditExpertAreasForm';
-import EditAboutForm from './EditAboutForm';
+import EditExpertAreasForm from '../profile/EditExpertAreasForm';
+import EditAboutForm from '../profile/EditAboutForm';
 
 const styles = theme => ({
   root: {
@@ -90,8 +90,8 @@ class Profile extends React.Component {
     }
     return (
       <div className={classes.root}>
-        <Grid container spacing={2}>
-          <Grid item md={4} sm={12}>
+        <Grid container spacing={24}>
+          <Grid item sm={3} xs={12}>
             <Paper className={classes.paper}>
               <Avatar
                 alt={this.props.auth && this.props.auth.nameLast}
@@ -104,7 +104,7 @@ class Profile extends React.Component {
               </Typography>
             </Paper>
           </Grid>
-          <Grid item md={8} sm={12}> 
+          <Grid item sm={9} xs={12}>
             <Paper className={classes.paper}>
               <Typography variant='h6' color='inherit' noWrap>
                 Expert Areas

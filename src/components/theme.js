@@ -3,23 +3,23 @@ import { createMuiTheme } from '@material-ui/core/styles';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#6ab7ff',
-      main: '#1e88e5',
-      dark: '#005cb2',
-      contrastText: '#fff',
+      light: '#7c43bd',
+      main: '#4a148c',
+      dark: '#12005e',
+      contrastText: '#fff'
     },
     secondary: {
-      light: '#60ad5e',
-      main: '#2e7d32',
-      dark: '#005005',
-      contrastText: '#000',
+      light: '#fff350',
+      main: '#ffc107',
+      dark: '#c79100',
+      contrastText: '#000'
     },
-    type: 'light',
+    type: 'light'
   },
   typography: {
-    useNextVariants: true,
+    useNextVariants: true
   },
-  zIndex: { drawer: 0 },
+  zIndex: { drawer: 0 }
 });
 
 export default theme;

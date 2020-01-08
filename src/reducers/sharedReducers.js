@@ -4,8 +4,36 @@ import {
   FETCH_PROGRAM_TYPES_FAILURE,
   FETCH_USERS_PENDING,
   FETCH_USERS_SUCCESS,
-  FETCH_USERS_FAILURE
+  FETCH_USERS_FAILURE,
+  FETCH_EXPERT_AREAS_PENDING,
+  FETCH_EXPERT_AREAS_SUCCESS,
+  FETCH_EXPERT_AREAS_FAILURE
 } from '../actions/types';
+
+const initalExpertAreasState = {
+  expertAreas: [],
+  isPending: false,
+  error: ''
+};
+export function expertAreas(state = initalExpertAreasState, action) {
+  //console.log(action);
+  switch (action.type) {
+    case FETCH_EXPERT_AREAS_PENDING:
+      return Object.assign({}, state, { isPending: true });
+    case FETCH_EXPERT_AREAS_SUCCESS:
+      return Object.assign({}, state, {
+        expertAreas: action.payload,
+        isPending: false
+      });
+    case FETCH_EXPERT_AREAS_FAILURE:
+      return Object.assign({}, state, {
+        error: action.payload,
+        isPending: false
+      });
+    default:
+      return state;
+  }
+}
 
 const initalProgramTypeState = {
   types: [],
