@@ -11,7 +11,7 @@ import {
   CREATE_PROGRAM_PENDING,
   CREATE_PROGRAM_SUCCESS,
   CREATE_PROGRAM_ERROR,
-  FETCH_USER,
+  FETCH_USER_SUCCESS,
   AUTH_USER,
   AUTH_ERROR,
   FETCH_EXPERT_AREAS_PENDING,
@@ -24,32 +24,20 @@ import axios from 'axios';
 
 export * from './profileActions';
 
-//formProps = { email, password }
+//new, formProps = { email, password }
 export const signup = (formProps, callback) => async dispatch => {
   try {
     const response = await axios.post(
       config.apidomain + '/auth/register',
       formProps
     );
+    console.log('in signup success', response.data);
     dispatch({ type: AUTH_USER, payload: response.data.token });
+    dispatch({ type: FETCH_USER_SUCCESS, payload: response.data.user });
     localStorage.setItem('token', response.data.token);
     callback(); //to redirect user
   } catch (e) {
     dispatch({ type: AUTH_ERROR, payload: 'Choose another email.' });
-  }
-};
-
-export const signin = (formProps, callback) => async dispatch => {
-  try {
-    const response = await axios.post(
-      config.apidomain + '/auth/login',
-      formProps
-    );
-    dispatch({ type: AUTH_USER, payload: response.data.token });
-    localStorage.setItem('token', response.data.token);
-    callback(); //to redirect user
-  } catch (e) {
-    dispatch({ type: AUTH_ERROR, payload: 'Invalid login credentials.' });
   }
 };
 
@@ -77,13 +65,6 @@ export const checkBrowerToken = () => async dispatch => {
 export const signout = () => {
   localStorage.removeItem('token');
   return { type: AUTH_USER, payload: '' };
-};
-
-export const fetchUser = () => async dispatch => {
-  const response = await axios.get('/auth/current_user');
-
-  console.log('fetch user action: ', response.data);
-  dispatch({ type: FETCH_USER, payload: response.data }); //redux thunk working here:"So again redux thunk is really allowing us to bend the rules here and allowing us to manually dispatch an action at any point in time that we wish from an action creator rather than requiring us to (immediately) just flat out return it from the action creator."  This action creator is returning a function.  The purpose of this middleware (thunk) is to inspect what ever value we return this action creator if redux thunked sees that we return a function instead of a normal action redux thunk will automatically call this function and pass in that dispatch function as an argument. We do not want to dispatch an action until this API request has been completed. So we want to treat this thing like an asynchronous little piece of code and chain on a then statement because axios returns a promise and then once the promise is resolved only then will we actually dispatch an action and have that be sent off to all of our different reducers.
 };
 
 // export const fetchExpertAreas = () => async dispatch => {

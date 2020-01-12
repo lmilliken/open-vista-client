@@ -7,7 +7,7 @@ import Icon from '@material-ui/core/Icon';
 import { FormControl, Button } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import { connect } from 'react-redux';
-import { updateProfile } from '../../actions';
+//import { updateProfile } from '../../actions';
 import { TextField, Typography } from '@material-ui/core';
 const styles = theme => ({
   root: { padding: '20px' },
@@ -50,9 +50,9 @@ class EditAboutForm extends React.Component {
   }
 
   handleSave(values) {
-    const { updateProfile } = this.props; //this redux action was included in props when we wired it up w/ connect()
+    // const { updateProfile } = this.props; //this redux action was included in props when we wired it up w/ connect()
     // console.log({ about });
-    updateProfile(values);
+    // updateProfile(values);
     this.props.close();
   }
 
@@ -102,7 +102,7 @@ const mapStateToProps = state => {
   };
 };
 export default withStyles(styles)(
-  connect(mapStateToProps, { updateProfile })(
+  connect(mapStateToProps)(
     reduxForm({
       form: 'editProfileForm'
     })(EditAboutForm)

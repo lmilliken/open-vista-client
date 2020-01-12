@@ -115,12 +115,9 @@ class Header extends React.Component {
   };
 
   renderTopContent() {
-    // console.log(
-    //   'props in Header renderTopContent(): ',
-    //   this.props.token
-    // );
+    // console.log('props in Header renderTopContent(): ', this.props.token);
     const open = Boolean(this.state.anchorEl);
-    if (this.props.token) {
+    if (this.props.token.token) {
       return (
         <Fragment>
           <IconButton
@@ -261,7 +258,7 @@ class Header extends React.Component {
           </Toolbar>
         </AppBar>
 
-        {this.props.token && (
+        {this.props.token.token && (
           <nav className={classes.drawer}>
             <Hidden smUp implementation='css'>
               <Drawer
@@ -307,7 +304,7 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired
 };
 const mapStateToProps = state => {
-  // console.log('hearder auth: ', auth);
+  console.log('hearder auth: ', state);
   return { token: state.auth.token };
 };
 

@@ -102,7 +102,7 @@ class Register extends React.Component {
               email: Yup.string()
                 .required('Email is required.')
                 .email('Invalid email address'),
-              terms: Yup.boolean(true).required('Must agree to terms.'),
+              terms: Yup.boolean().required('Must agree to terms.'),
             })}
             initialValues={{
               nameFirst: '',
@@ -145,13 +145,15 @@ class Register extends React.Component {
                     component={CheckboxFormik}
                     label='I agree to the terms and condition of use.'
                   />
+
                   <Button
                     type='submit'
+                    fullWidth
                     variant='contained'
                     color='primary'
-                    //disabled={isSubmitting || !isEmpty(errors) || !dirty}
+                    className={classes.submit}
                   >
-                    Submit
+                    Register
                   </Button>
                   <pre>{JSON.stringify(props, null, 2)}</pre>
                 </Form>

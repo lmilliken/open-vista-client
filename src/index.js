@@ -13,7 +13,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 const store = createStore(
   reducers,
-  { auth: { authenticated: localStorage.getItem('token') } },
+  { auth: { token: { token: localStorage.getItem('token') } } },
   applyMiddleware(reduxThunk)
 );
 

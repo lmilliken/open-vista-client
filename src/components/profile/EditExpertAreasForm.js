@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateProfile } from '../../actions';
+//import { updateProfile } from '../../actions';
 import { reduxForm, Field } from 'redux-form';
 
 import PropTypes from 'prop-types';
@@ -76,9 +76,9 @@ class EditExpertAreasForm extends React.Component {
     // console.log({ values });
     // e.preventDefault();
     // // console.log('props: ', this.props);
-    const { updateProfile } = this.props; //this redux action was included in props when we wired it up w/ connect()
+    // const { updateProfile } = this.props; //this redux action was included in props when we wired it up w/ connect()
     // const expertAreas = this.props.editExpertAreas;
-    updateProfile(values);
+    // updateProfile(values);
     this.props.close();
   }
 
@@ -135,7 +135,7 @@ const mapStateToProps = state => {
 };
 
 export default withStyles(styles)(
-  connect(mapStateToProps, { updateProfile })(
+  connect(mapStateToProps)(
     reduxForm({
       form: 'editProfileForm'
     })(EditExpertAreasForm)

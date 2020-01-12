@@ -11,10 +11,11 @@ import Icon from '@material-ui/core/Icon';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
-
+import { compose } from 'redux';
 import EditExpertAreasForm from './EditExpertAreasForm';
 import EditAboutForm from './EditAboutForm';
 
+import requireAuth from '../requireAuth';
 const styles = theme => ({
   root: {
     // flexGrow: 1,
@@ -104,7 +105,7 @@ class Profile extends React.Component {
               </Typography>
             </Paper>
           </Grid>
-          <Grid item md={8} sm={12}> 
+          <Grid item md={8} sm={12}>
             <Paper className={classes.paper}>
               <Typography variant='h6' color='inherit' noWrap>
                 Expert Areas
@@ -181,4 +182,12 @@ const mapStateToProps = ({ auth, expertAreas }) => {
   return { auth, expertAreas };
 };
 
-export default withStyles(styles)(connect(mapStateToProps)(Profile));
+// export default withStyles(styles)(
+//   connect(mapStateToProps, requireAuth)(Profile)
+// );
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps),
+  requireAuth
+)(Profile);
+//export default requireAuth(Profile);

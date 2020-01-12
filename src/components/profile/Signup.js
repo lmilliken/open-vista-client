@@ -1,3 +1,5 @@
+//from Stephen's Advanced React.  I used this to mofidy the Register component, which is a little more complicated b/c it users Material UI
+
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
@@ -9,7 +11,7 @@ class Signup extends Component {
     //    console.log('hey', formProps);
     this.props.signup(formProps, () => {
       this.props.history.push('/profile'); //history provided by redux router
-    }); //provided by redux's actions?
+    }); //this.props.signup provided by actions from connect(mapStateToProps, actions) at the bottom of this file
   };
 
   render() {

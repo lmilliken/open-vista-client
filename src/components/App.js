@@ -65,7 +65,7 @@ const styles = theme => ({
 
 class App extends Component {
   componentWillMount() {
-    this.props.checkAuthToken();
+    // this.props.checkAuthToken();
     // var query = queryString.parse(window.location.search);
     // if (query.token) {
     //   window.localStorage.setItem('token', query.token);
@@ -74,9 +74,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchExpertAreas();
+    // this.props.fetchExpertAreas();
     // this.props.fetchProgramTypes();
-    this.props.fetchUsers();
+    //   this.props.fetchUsers();
     this.props.fetchUser();
   }
 
