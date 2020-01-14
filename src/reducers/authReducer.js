@@ -31,7 +31,6 @@ export function token(state = INITIAL_STATE, action) {
   }
 }
 export function user(state = {}, action) {
-  console.log('in user reducer, payload:', action);
   switch (action.type) {
     case FETCH_USER_PENDING:
       return { ...state, isPending: true };

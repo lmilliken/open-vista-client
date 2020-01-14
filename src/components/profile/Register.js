@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import * as actions from '../../actions';
 import { Field, reduxForm } from 'redux-form';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -22,6 +21,8 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { SubmissionError } from 'redux-form';
 
+import * as actions from '../../actions';
+
 const styles = theme => ({
   main: {
     width: 'auto',
@@ -39,8 +40,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing.unit *
-      3}px`
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`
   },
   avatar: {
     margin: theme.spacing(1),
@@ -76,11 +76,11 @@ class Register extends React.Component {
   onSubmit = formProps => {
     this.props.signup(formProps, () => {
       this.props.history.push('/profile'); //history provided by redux router
-    }); //provided by redux's actions?
+    }); //this.props.signup provided by actions from connect(mapStateToProps, actions) at the bottom of this file
   };
 
   render() {
-    const { classes, handleSubmit } = this.props;
+    const { classes, handleSubmit } = this.props; //handleSubmit provided by redux form to component props
 
     // if (this.state.completed === true) {
     //   return (
@@ -97,7 +97,6 @@ class Register extends React.Component {
     // } else {
     return (
       <div className={classes.main}>
-        {/* <CssBaseline /> */}
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockIcon />
@@ -180,7 +179,7 @@ class Register extends React.Component {
 // }}>
 
 const mapStateToProps = state => {
-  console.log('map state to props: {state} : ', state);
+  //  console.log('map state to props: {state} : ', state);
   return { errorMessage: state.auth.token.errorMessage };
 };
 

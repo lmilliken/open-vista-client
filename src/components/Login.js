@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+
 import { fetchUser } from '../actions';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
@@ -9,14 +12,17 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
+import TextField from '@material-ui/core/TextField';
+
 import InputLabel from '@material-ui/core/InputLabel';
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-const axios = require('axios');
 
+import * as actions from '../actions';
+import config from '../config';
 const styles = theme => ({
   main: {
     width: 'auto',
@@ -34,8 +40,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme
-      .spacing.unit * 3}px`
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`
   },
   avatar: {
     margin: theme.spacing(1),
@@ -65,35 +70,32 @@ class Login extends React.Component {
   //   super(props);
   //   this.state = {};
   // }
+  onSubmit = formProps => {
+    console.log('hey', formProps);
+    this.props.signin(formProps, () => {
+      this.props.history.push('/profile'); //history provided by redux router
+    }); //provided by redux's actions
+  };
 
   state = { email: '', password: '', error: '', redirectToReferrer: false };
-  signin = e => {
-    e.preventDefault();
-    console.log('sign in clicked', this.state);
-    axios
-      .post('/auth/login', this.state)
-      .then(async res => {
-        console.log({ res });
-        await this.props.fetchUser();
-        this.setState({ redirectToReferrer: true });
-      })
-      .catch(err => this.setState({ error: 'Invalid Credentials' }));
-  };
 
-  handleClick = async e => {
-    const response = await axios.get('/api/test');
-    console.log({ response });
-  };
-  handleEmail = e => {
-    this.setState({ email: e.target.value });
-  };
-
-  handlePassword = e => {
-    this.setState({ password: e.target.value });
-  };
-
+  renderTextField = ({
+    label,
+    input,
+    meta: { touched, invalid, error },
+    ...custom
+  }) => (
+    <TextField
+      label={label}
+      placeholder={label}
+      error={touched && invalid}
+      helperText={touched && error}
+      {...input}
+      {...custom}
+    />
+  );
   render() {
-    const { classes } = this.props;
+    const { classes, handleSubmit } = this.props;
     // console.log('state: ', this.state);
     // console.log('props in Profile: ', this.props);
 
@@ -108,7 +110,6 @@ class Login extends React.Component {
     }
     return (
       <div className={classes.main}>
-        <CssBaseline />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockIcon />
@@ -116,29 +117,23 @@ class Login extends React.Component {
           <Typography component='h1' variant='h5'>
             Sign in
           </Typography>
-          <form className={classes.form} onSubmit={this.signin}>
-            <FormControl margin='normal' fullWidth>
-              <InputLabel htmlFor='email'>Email Address</InputLabel>
-              <Input
-                id='email'
-                name='email'
-                autoComplete='email'
-                autoFocus
-                value={this.state.email}
-                onChange={this.handleEmail}
-              />
-            </FormControl>
-            <FormControl margin='normal' fullWidth>
-              <InputLabel htmlFor='password'>Password</InputLabel>
-              <Input
-                name='password'
-                type='password'
-                id='password'
-                autoComplete='current-password'
-                value={this.state.password}
-                onChange={this.handlePassword}
-              />
-            </FormControl>
+
+          <form className={classes.form} onSubmit={handleSubmit(this.onSubmit)}>
+            <Field
+              name='email'
+              component={this.renderTextField}
+              label='Email'
+              type='email'
+              fullWidth
+            />
+            <Field
+              name='password'
+              component={this.renderTextField}
+              label='Password'
+              type='password'
+              fullWidth
+            />
+            <div>{this.props.errorMessage}</div>
             <FormControlLabel
               control={<Checkbox value='remember' color='primary' />}
               label='Remember me'
@@ -217,9 +212,13 @@ Login.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(
-  connect(
-    null,
-    { fetchUser }
-  )(Login)
-);
+function mapStateToProps(state) {
+  console.log('map state to props in Login', state);
+  return { errorMessage: state.auth.errorMessage };
+}
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps, actions),
+  reduxForm({ form: 'signin' })
+)(Login);

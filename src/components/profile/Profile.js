@@ -75,6 +75,7 @@ class Profile extends React.Component {
 
   render() {
     const { classes, auth, expertAreas } = this.props;
+    console.log('Profile', this.props);
 
     const expertAreasWords = [];
     if (expertAreas && auth.expertAreas) {
@@ -84,7 +85,6 @@ class Profile extends React.Component {
         expertAreasWords.push(object.name);
       });
 
-      // console.log({ auth });
       // console.log({ expertAreas });
       // expertAreas.map((area) => area);
       // console.log({ expertAreasWords });
@@ -100,8 +100,11 @@ class Profile extends React.Component {
                 className={classes.bigAvatar}
               />
               <Typography variant='h6' color='inherit' noWrap>
-                {this.props.auth && this.props.auth.nameFirst}{' '}
-                {this.props.auth && this.props.auth.nameLast}
+                test
+                {this.props.auth.user.user &&
+                  this.props.auth.user.user.nameFirst}{' '}
+                {this.props.auth.user.user &&
+                  this.props.auth.user.user.nameLast}
               </Typography>
             </Paper>
           </Grid>

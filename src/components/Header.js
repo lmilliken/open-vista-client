@@ -142,11 +142,11 @@ class Header extends React.Component {
             open={open}
             onClose={this.handleClose}
           >
-            <MenuItem component={Link} to='/profile' onClick={this.handleClose}>
+            <MenuItem component={Link} to='/profile'>
               Profile
             </MenuItem>
-            <MenuItem onClick={e => (window.location.href = '/auth/logout')}>
-              Logout
+            <MenuItem component={Link} to='/signout'>
+              Sign Out
             </MenuItem>
           </Menu>
         </Fragment>

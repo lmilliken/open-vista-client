@@ -11,12 +11,14 @@ import {
   CREATE_PROGRAM_PENDING,
   CREATE_PROGRAM_SUCCESS,
   CREATE_PROGRAM_ERROR,
-  FETCH_USER_SUCCESS,
   AUTH_USER,
   AUTH_ERROR,
   FETCH_EXPERT_AREAS_PENDING,
   FETCH_EXPERT_AREAS_SUCCESS,
-  FETCH_EXPERT_AREAS_FAILURE
+  FETCH_EXPERT_AREAS_FAILURE,
+  FETCH_USER_PENDING,
+  FETCH_USER_SUCCESS,
+  FETCH_USER_ERROR
 } from './types';
 import queryString from 'query-string';
 import config from '../config';
@@ -42,12 +44,14 @@ export const signup = (formProps, callback) => async dispatch => {
 };
 
 //check the authentication token that was sent as a callback in the url: ...com?token=lkjsdlfkjsdf
-export const checkAuthToken = () => async dispatch => {
+export const checkAuthToken = token => async dispatch => {
   var query = queryString.parse(window.location.search);
+  console.log('in checkAuthToken');
+  console.log({ query });
   if (query.token) {
-    dispatch({ type: AUTH_USER, payload: query.token });
+    dispatch({ type: FETCH_USER_PENDING });
+    dispatch({ type: FETCH_USER_SUCCESS, payload: query.token });
     window.localStorage.setItem('token', query.token);
-    console.log('got an token', query.token);
     // this.props.history.push('/');
   }
 };

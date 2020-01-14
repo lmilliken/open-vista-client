@@ -10,12 +10,13 @@ import config from '../config';
 
 export const signin = (formProps, callback) => async dispatch => {
   try {
+    console.log('in signin action');
     const response = await axios.post(
       config.apidomain + '/auth/login',
       formProps
     );
     dispatch({ type: AUTH_USER, payload: response.data.token });
-    dispatch({ type: FETCH_USER_PENDING, payload: response.data.user });
+    dispatch({ type: FETCH_USER_SUCCESS, payload: response.data.user });
     localStorage.setItem('token', response.data.token);
     callback(); //to redirect user
   } catch (e) {
@@ -24,9 +25,9 @@ export const signin = (formProps, callback) => async dispatch => {
 };
 
 export const fetchUser = () => async dispatch => {
-  dispatch({ type: FETCH_USER_PENDING });
   const token = localStorage.getItem('token');
   if (token) {
+    dispatch({ type: FETCH_USER_PENDING });
     axios
       .get(config.apidomain + '/auth/current_user', {
         headers: { authorization: token }

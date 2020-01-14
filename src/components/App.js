@@ -22,18 +22,14 @@ import Reservation from './demos/Reservation';
 import Invitation from './demos/Invitation';
 import AutoSelect from './demos/AutoSelect';
 import Jared from './demos/Jared';
-import SelectFormik from './common/SelectFormik';
 import Register from './profile/Register';
-import Signup from './profile/Signup';
 import Signout from './profile/Signout';
+import Oauth from './profile/OAuth';
 import Signin from './profile/Signin';
 import Login from './Login';
 import Home from './Home';
 import Profile from './profile/Profile';
 import * as actions from '../actions';
-import SelectAutoFormik from './common/SelectAutoFormik';
-import queryString from 'query-string';
-
 const apiRegex = /\/api\/.*/;
 
 const drawerWidth = 240;
@@ -123,7 +119,7 @@ class App extends Component {
                   component={ProgramNewRedux}
                 /> */}
               <Route exact path='/register' component={Register} />
-              <Route exact path='/signup' component={Signup} />
+              <Route exact path='/oauth' component={Oauth} />
               <Route exact path='/signout' component={Signout} />
               <Route exact path='/signin' component={Signin} />
               <Route exact path='/profile' component={Profile} />
