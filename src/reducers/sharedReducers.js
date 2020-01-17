@@ -16,6 +16,7 @@ const initalExpertAreasState = {
   error: ''
 };
 export function expertAreas(state = initalExpertAreasState, action) {
+  console.log('in expertAreas reducer', action.type);
   switch (action.type) {
     case FETCH_EXPERT_AREAS_PENDING:
       return Object.assign({}, state, { isPending: true });

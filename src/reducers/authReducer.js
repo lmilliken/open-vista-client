@@ -3,7 +3,8 @@ import {
   AUTH_ERROR,
   FETCH_USER_PENDING,
   FETCH_USER_SUCCESS,
-  FETCH_USER_ERROR
+  FETCH_USER_ERROR,
+  CLEAR_USER
 } from '../actions/types';
 
 // export function authUser(state = null, action) {
@@ -21,6 +22,7 @@ const INITIAL_STATE = {
   errorMessage: ''
 };
 export function token(state = INITIAL_STATE, action) {
+  console.log('in tokenReducer', action.type);
   switch (action.type) {
     case AUTH_USER:
       return { ...state, token: action.payload };
@@ -31,6 +33,7 @@ export function token(state = INITIAL_STATE, action) {
   }
 }
 export function user(state = {}, action) {
+  console.log('in user reducer', action.type);
   switch (action.type) {
     case FETCH_USER_PENDING:
       return { ...state, isPending: true };
@@ -38,6 +41,8 @@ export function user(state = {}, action) {
       return { ...state, user: action.payload, isPending: false };
     case FETCH_USER_ERROR:
       return { ...state, error: action.payload, isPending: false };
+    case CLEAR_USER:
+      return { ...state, user: action.payload, isPending: false };
     default:
       return state;
   }

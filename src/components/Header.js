@@ -219,7 +219,6 @@ class Header extends React.Component {
               <ListItemText primary='Sign Out' />
             </ListItem>
           </Link>
-          ={' '}
         </List>
       </div>
     );

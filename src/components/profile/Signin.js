@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import withStyles from '@material-ui/core/styles/withStyles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
@@ -74,7 +73,6 @@ class Signin extends Component {
 
     return (
       <div className={classes.main}>
-        <CssBaseline />
         <form onSubmit={handleSubmit(this.onSubmit)}>
           <FormControl margin='normal' fullWidth>
             <InputLabel htmlFor='email'>Email Address</InputLabel>

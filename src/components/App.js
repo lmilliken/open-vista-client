@@ -24,7 +24,6 @@ import AutoSelect from './demos/AutoSelect';
 import Jared from './demos/Jared';
 import Register from './profile/Register';
 import Signout from './profile/Signout';
-import Oauth from './profile/OAuth';
 import Signin from './profile/Signin';
 import Login from './Login';
 import Home from './Home';
@@ -74,10 +73,11 @@ class App extends Component {
     // this.props.fetchProgramTypes();
     //   this.props.fetchUsers();
     this.props.fetchUser();
+    this.props.fetchExpertAreas();
   }
 
   render() {
-    console.log('props: ', this.props);
+    console.log('App props: ', this.props);
 
     const { classes } = this.props;
     const rightStyle = this.props.state.auth ? classes.rightStyle : null;
@@ -119,7 +119,6 @@ class App extends Component {
                   component={ProgramNewRedux}
                 /> */}
               <Route exact path='/register' component={Register} />
-              <Route exact path='/oauth' component={Oauth} />
               <Route exact path='/signout' component={Signout} />
               <Route exact path='/signin' component={Signin} />
               <Route exact path='/profile' component={Profile} />

@@ -18,7 +18,8 @@ import {
   FETCH_EXPERT_AREAS_FAILURE,
   FETCH_USER_PENDING,
   FETCH_USER_SUCCESS,
-  FETCH_USER_ERROR
+  FETCH_USER_ERROR,
+  CLEAR_USER
 } from './types';
 import queryString from 'query-string';
 import config from '../config';
@@ -28,6 +29,7 @@ export * from './profileActions';
 
 //new, formProps = { email, password }
 export const signup = (formProps, callback) => async dispatch => {
+  dispatch({ type: FETCH_USER_PENDING });
   try {
     const response = await axios.post(
       config.apidomain + '/auth/register',
@@ -39,37 +41,11 @@ export const signup = (formProps, callback) => async dispatch => {
     localStorage.setItem('token', response.data.token);
     callback(); //to redirect user
   } catch (e) {
+    dispatch({ type: FETCH_USER_ERROR, payload: e });
     dispatch({ type: AUTH_ERROR, payload: 'Choose another email.' });
   }
 };
 
-//check the authentication token that was sent as a callback in the url: ...com?token=lkjsdlfkjsdf
-export const checkAuthToken = token => async dispatch => {
-  var query = queryString.parse(window.location.search);
-  console.log('in checkAuthToken');
-  console.log({ query });
-  if (query.token) {
-    dispatch({ type: FETCH_USER_PENDING });
-    dispatch({ type: FETCH_USER_SUCCESS, payload: query.token });
-    window.localStorage.setItem('token', query.token);
-    // this.props.history.push('/');
-  }
-};
-
-export const checkBrowerToken = () => async dispatch => {
-  var query = queryString.parse(window.location.search);
-  if (query.token) {
-    dispatch({ type: AUTH_USER, payload: query.token });
-    window.localStorage.setItem('token', query.token);
-    console.log('got an token', query.token);
-    // this.props.history.push('/');
-  }
-};
-
-export const signout = () => {
-  localStorage.removeItem('token');
-  return { type: AUTH_USER, payload: '' };
-};
 
 // export const fetchExpertAreas = () => async dispatch => {
 //   const response = await axios.get('/api/expertareas');

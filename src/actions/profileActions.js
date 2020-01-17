@@ -4,9 +4,10 @@ import {
   FETCH_USER_SUCCESS,
   FETCH_USER_ERROR,
   AUTH_USER,
-  AUTH_ERROR
+  AUTH_ERROR,CLEAR_USER
 } from './types';
 import config from '../config';
+import queryString from 'query-string';
 
 export const signin = (formProps, callback) => async dispatch => {
   try {
@@ -24,8 +25,19 @@ export const signin = (formProps, callback) => async dispatch => {
   }
 };
 
+export const signout = () => dispatch => {
+  localStorage.removeItem('token');
+  dispatch({ type: AUTH_USER, payload: '' });
+  dispatch({ type: CLEAR_USER, payload: '' });
+};
+
+
 export const fetchUser = () => async dispatch => {
-  const token = localStorage.getItem('token');
+  //they maybe coming back to the site after authenticating with Google with url.com?token=234lkj
+  const queryToken = queryString.parse(window.location.search).token;
+  console.log({ queryToken });
+  const token = queryToken || localStorage.getItem('token');
+  console.log({ token });
   if (token) {
     dispatch({ type: FETCH_USER_PENDING });
     axios
@@ -33,11 +45,15 @@ export const fetchUser = () => async dispatch => {
         headers: { authorization: token }
       })
       .then(res => {
-        console.log('fetch user response', res.data);
         dispatch({ type: FETCH_USER_SUCCESS, payload: res.data });
+
+        //if a token is passed through the URL, set it in the store and local storage
+        if (queryToken) {
+          dispatch({ type: AUTH_USER, payload: queryToken });
+          window.localStorage.setItem('token', queryToken);
+        }
       })
       .catch(e => {
-        console.log('fetch user error', e);
         dispatch({ type: FETCH_USER_ERROR, payload: e });
       });
   }

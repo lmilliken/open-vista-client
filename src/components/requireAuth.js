@@ -23,8 +23,7 @@ export default ChildComponent => {
     }
   }
   function mapStateToProps(state) {
-    console.log('here', state);
-    return { token: state.auth.token };
+    return { token: state.auth.token.token };
   }
   return connect(mapStateToProps)(ComposedComponent);
 };

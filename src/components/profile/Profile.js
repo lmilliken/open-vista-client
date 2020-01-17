@@ -74,18 +74,17 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { classes, auth, expertAreas } = this.props;
-    console.log('Profile', this.props);
+    const { classes, user, expertAreas } = this.props;
+    console.log({ user });
 
     const expertAreasWords = [];
-    if (expertAreas && auth.expertAreas) {
-      auth.expertAreas.map(function(id) {
+    if (expertAreas) {
+      expertAreas.map(function(id) {
         // console.log({ id });
         const object = _.find(expertAreas, { _id: id });
         expertAreasWords.push(object.name);
       });
 
-      // console.log({ expertAreas });
       // expertAreas.map((area) => area);
       // console.log({ expertAreasWords });
     }
@@ -95,16 +94,14 @@ class Profile extends React.Component {
           <Grid item md={4} sm={12}>
             <Paper className={classes.paper}>
               <Avatar
-                alt={this.props.auth && this.props.auth.nameLast}
-                src={this.props.auth && this.props.auth.profileImage}
+                alt={user.user && user.user.nameLast}
+                src={user.user && user.user.photo}
                 className={classes.bigAvatar}
               />
-              <Typography variant='h6' color='inherit' noWrap>
+              <Typography variant='h6' color='inherit' align='center' noWrap>
                 test
-                {this.props.auth.user.user &&
-                  this.props.auth.user.user.nameFirst}{' '}
-                {this.props.auth.user.user &&
-                  this.props.auth.user.user.nameLast}
+                {user.user && user.user.nameFirst}{' '}
+                {user.user && user.user.nameLast}
               </Typography>
             </Paper>
           </Grid>
@@ -180,9 +177,9 @@ Profile.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ auth, expertAreas }) => {
+const mapStateToProps = ({ auth: { user }, expertAreas }) => {
   // console.log({ expertAreas });
-  return { auth, expertAreas };
+  return { user, expertAreas };
 };
 
 // export default withStyles(styles)(

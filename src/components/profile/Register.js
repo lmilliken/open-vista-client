@@ -22,6 +22,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { SubmissionError } from 'redux-form';
 
 import * as actions from '../../actions';
+import config from '../../config';
 
 const styles = theme => ({
   main: {

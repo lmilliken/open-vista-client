@@ -12,4 +12,8 @@ class Signout extends Component {
   }
 }
 
-export default connect(null, actions)(Signout);
+const mapStateToProps = ({ signout }) => {
+  return { signout };
+};
+
+export default connect(mapStateToProps, actions)(Signout);
