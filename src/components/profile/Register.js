@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// // import { register } from '../../actions';
-
-import * as Yup from 'yup';
-// import { Field, reduxForm } from 'redux-form';
-import { Formik, Form, Field } from 'formik';
+import { compose } from 'redux';
+import { Field, reduxForm } from 'redux-form';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
@@ -17,60 +14,74 @@ import Checkbox from '@material-ui/core/Checkbox';
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
-import TextField from '../common/TextFieldFormik';
-import CheckboxFormik from '../common/CheckboxFormik';
+//import TextField from '../common/TextFieldFormik';
+import TextField from '@material-ui/core/TextField';
+// CheckboxFormik from '../common/CheckboxFormik';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { SubmissionError } from 'redux-form';
+
+import * as actions from '../../actions';
+import config from '../../config';
 
 const styles = theme => ({
   main: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(400 + theme.spacing(3) * 2)]: {
       width: 400,
       marginLeft: 'auto',
-      marginRight: 'auto',
-    },
+      marginRight: 'auto'
+    }
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    marginTop: theme.spacing(1) * 8,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`,
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`
   },
   avatar: {
-    margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main,
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1)
   },
   submit: {
-    marginTop: theme.spacing.unit * 3,
-  },
+    marginTop: theme.spacing(3)
+  }
 });
 
-const onSubmit = (values, actions) => {
-  console.log('register clicked');
-  console.log({ values });
-  console.log({ actions });
-};
+//for material ui
+const renderTextField = ({
+  label,
+  input,
+  meta: { touched, invalid, error },
+  ...custom
+}) => (
+  <TextField
+    label={label}
+    placeholder={label}
+    error={touched && invalid}
+    helperText={touched && error}
+    {...input}
+    {...custom}
+  />
+);
 
 class Register extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { completed: false };
-    // this.register = this.register.bind(this);
-  }
+  onSubmit = formProps => {
+    this.props.signup(formProps, () => {
+      this.props.history.push('/profile'); //history provided by redux router
+    }); //this.props.signup provided by actions from connect(mapStateToProps, actions) at the bottom of this file
+  };
 
   render() {
-    const { classes } = this.props;
+    const { classes, handleSubmit } = this.props; //handleSubmit provided by redux form to component props
 
     // if (this.state.completed === true) {
     //   return (
@@ -87,7 +98,6 @@ class Register extends React.Component {
     // } else {
     return (
       <div className={classes.main}>
-        {/* <CssBaseline /> */}
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockIcon />
@@ -95,71 +105,54 @@ class Register extends React.Component {
           <Typography component='h1' variant='h5'>
             Register
           </Typography>
-          <Formik
-            validationSchema={Yup.object().shape({
-              nameFirst: Yup.string().required('First name is required.'),
-              nameLast: Yup.string().required('Last name is required.'),
-              email: Yup.string()
-                .required('Email is required.')
-                .email('Invalid email address'),
-              terms: Yup.boolean().required('Must agree to terms.'),
-            })}
-            initialValues={{
-              nameFirst: '',
-              nameLast: '',
-              email: '',
-              terms: '',
-            }}
-            onSubmit={onSubmit}
-            render={props => {
-              return (
-                <Form className={classes.form}>
-                  <Field
-                    name='nameFirst'
-                    component={TextField}
-                    label='First Name'
-                    fullWidth
-                  />
-                  <Field
-                    name='nameLast'
-                    component={TextField}
-                    label='Last Name'
-                    fullWidth
-                  />
-                  <Field
-                    name='email'
-                    component={TextField}
-                    label='Email'
-                    type='email'
-                    fullWidth
-                  />
-                  <Field
-                    name='password'
-                    component={TextField}
-                    label='Password'
-                    type='password'
-                    fullWidth
-                  />
-                  <Field
-                    name='terms'
-                    component={CheckboxFormik}
-                    label='I agree to the terms and condition of use.'
-                  />
 
-                  <Button
-                    type='submit'
-                    fullWidth
-                    variant='contained'
-                    color='primary'
-                    className={classes.submit}
-                  >
-                    Register
-                  </Button>
-                  <pre>{JSON.stringify(props, null, 2)}</pre>
-                </Form>
-              );
-            }}
-          />
+          <form className={classes.form} onSubmit={handleSubmit(this.onSubmit)}>
+            <Field
+              name='nameFirst'
+              component={renderTextField}
+              label='First Name'
+              fullWidth
+              value='test first'
+            />
+            <Field
+              name='nameLast'
+              component={renderTextField}
+              label='Last Name'
+              fullWidth
+              value='test first'
+            />
+            <Field
+              name='email'
+              component={renderTextField}
+              label='Email'
+              type='email'
+              fullWidth
+              value='larry@miller.com'
+            />
+            <Field
+              name='password'
+              component={renderTextField}
+              label='Password'
+              type='password'
+              fullWidth
+              value='123'
+            />
+            {/* <Field
+              name='terms'
+              component={CheckboxFormik}
+              label='I agree to the terms and condition of use.'
+            /> */}
+            <div style={{ color: 'red' }}>{this.props.errorMessage}</div>
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              color='primary'
+              className={classes.submit}
+            >
+              Register
+            </Button>
+          </form>
 
           <Typography>Or register with</Typography>
           <FormControlLabel
@@ -187,23 +180,20 @@ class Register extends React.Component {
 // }}>
 
 const mapStateToProps = state => {
-  // console.log('map state to props: {state} : ', state);
-  return {
-    registerForm: state.form.registerForm,
-  };
+  //  console.log('map state to props: {state} : ', state);
+  return { errorMessage: state.auth.token.errorMessage };
 };
 
-Register.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+// Register.propTypes = {
+//   classes: PropTypes.object.isRequired
+// };
 
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    null,
-  )(Register),
-);
-
+//export default withStyles(styles)(connect(mapStateToProps, null)(Register));
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps, actions),
+  reduxForm({ form: 'signup' })
+)(Register);
 //   register = async values => {
 //     // check to see if user email already exists
 //     const duplicateEmailCheck = await axios.post('/api/checkdupemail', {

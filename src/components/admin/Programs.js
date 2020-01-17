@@ -25,7 +25,7 @@ const styles = theme => ({
     transform: 'scale(0.8)',
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   title: {
     fontSize: 14,

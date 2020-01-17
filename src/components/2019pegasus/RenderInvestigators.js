@@ -27,7 +27,7 @@ const styles = theme => ({
     margin: '2%',
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   investigator: {
     margin: '20px 0px',

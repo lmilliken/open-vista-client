@@ -11,11 +11,10 @@ import Icon from '@material-ui/core/Icon';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
-import EditExpertAreasForm from './EditExpertAreasForm';
-import EditAboutForm from './EditAboutForm';
 
-import requireAuth from '../requireAuth';
+import EditExpertAreasForm from '../profile/EditExpertAreasForm';
+import EditAboutForm from '../profile/EditAboutForm';
+
 const styles = theme => ({
   root: {
     // flexGrow: 1,
@@ -74,38 +73,38 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { classes, user, expertAreas } = this.props;
-    console.log({ user });
+    const { classes, auth, expertAreas } = this.props;
 
     const expertAreasWords = [];
-    if (expertAreas) {
-      expertAreas.map(function(id) {
+    if (expertAreas && auth.expertAreas) {
+      auth.expertAreas.map(function(id) {
         // console.log({ id });
         const object = _.find(expertAreas, { _id: id });
         expertAreasWords.push(object.name);
       });
 
+      // console.log({ auth });
+      // console.log({ expertAreas });
       // expertAreas.map((area) => area);
       // console.log({ expertAreasWords });
     }
     return (
       <div className={classes.root}>
-        <Grid container spacing={2}>
-          <Grid item md={4} sm={12}>
+        <Grid container spacing={24}>
+          <Grid item sm={3} xs={12}>
             <Paper className={classes.paper}>
               <Avatar
-                alt={user.user && user.user.nameLast}
-                src={user.user && user.user.photo}
+                alt={this.props.auth && this.props.auth.nameLast}
+                src={this.props.auth && this.props.auth.profileImage}
                 className={classes.bigAvatar}
               />
-              <Typography variant='h6' color='inherit' align='center' noWrap>
-                test
-                {user.user && user.user.nameFirst}{' '}
-                {user.user && user.user.nameLast}
+              <Typography variant='h6' color='inherit' noWrap>
+                {this.props.auth && this.props.auth.nameFirst}{' '}
+                {this.props.auth && this.props.auth.nameLast}
               </Typography>
             </Paper>
           </Grid>
-          <Grid item md={8} sm={12}>
+          <Grid item sm={9} xs={12}>
             <Paper className={classes.paper}>
               <Typography variant='h6' color='inherit' noWrap>
                 Expert Areas
@@ -177,17 +176,9 @@ Profile.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ auth: { user }, expertAreas }) => {
+const mapStateToProps = ({ auth, expertAreas }) => {
   // console.log({ expertAreas });
-  return { user, expertAreas };
+  return { auth, expertAreas };
 };
 
-// export default withStyles(styles)(
-//   connect(mapStateToProps, requireAuth)(Profile)
-// );
-export default compose(
-  withStyles(styles),
-  connect(mapStateToProps),
-  requireAuth
-)(Profile);
-//export default requireAuth(Profile);
+export default withStyles(styles)(connect(mapStateToProps)(Profile));

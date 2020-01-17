@@ -29,15 +29,15 @@ import MailIcon from '@material-ui/icons/Mail';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 const styless = {
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   grow: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
     marginLeft: -12,
-    marginRight: 10,
-  },
+    marginRight: 10
+  }
 };
 
 const drawerWidth = 240;
@@ -45,10 +45,10 @@ const drawerWidth = 240;
 const styles = theme => ({
   root: {
     display: 'flex',
-    flexGrow: 1,
+    flexGrow: 1
   },
   grow: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   // drawer: {
   //   [theme.breakpoints.up('sm')]: {
@@ -57,7 +57,7 @@ const styles = theme => ({
   //   },
   // },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+    zIndex: theme.zIndex.drawer + 1
     // marginLeft: drawerWidth,
     // [theme.breakpoints.up('sm')]: {
     //   width: `calc(100% - ${drawerWidth}px)`,
@@ -71,30 +71,30 @@ const styles = theme => ({
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0,
+    flexShrink: 0
   },
   toolbar: theme.mixins.toolbar, //pushes drawer down below toolbar
   drawerPaper: {
-    width: drawerWidth,
+    width: drawerWidth
   },
   drawerHeader: {
     display: 'flex',
     alignItems: 'center',
     padding: '0 8px',
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-end'
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-  },
+    padding: theme.spacing(3)
+  }
 });
 
 class Header extends React.Component {
   state = {
     auth: true,
     anchorEl: null,
-    mobileOpen: false,
+    mobileOpen: false
   };
 
   // handleChange = event => {
@@ -115,60 +115,58 @@ class Header extends React.Component {
   };
 
   renderTopContent() {
-    //  console.log('props in Header renderTopContent(): ', this.props);
+    // console.log('props in Header renderTopContent(): ', this.props.token);
     const open = Boolean(this.state.anchorEl);
-    switch (this.props.auth) {
-      case null:
-        return;
-      case false:
-        return (
-          <Fragment>
-            <Button color='inherit' component={Link} to='/login'>
-              Login
-            </Button>
-            {/* <Button variant='outlined' component={Link} to='/register'>
-              Sign Up
-            </Button> */}
-          </Fragment>
-        );
-      default:
-        return (
-          <Fragment>
-            <IconButton
-              aria-owns={open ? 'menu-appbar' : undefined}
-              aria-haspopup='true'
-              onClick={this.handleMenu}
-              color='inherit'
-            >
-              <AccountCircle />
-            </IconButton>
-            <Menu
-              id='menu-appbar'
-              anchorEl={this.state.anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={open}
-              onClose={this.handleClose}
-            >
-              <MenuItem
-                component={Link}
-                to='/profile'
-                onClick={this.handleClose}
-              >
-                Profile
-              </MenuItem>
-              <MenuItem onClick={e => (window.location.href = '/auth/logout')}>
-                Logout
-              </MenuItem>
-            </Menu>
-          </Fragment>
-        );
+    if (this.props.token.token) {
+      return (
+        <Fragment>
+          <IconButton
+            aria-owns={open ? 'menu-appbar' : undefined}
+            aria-haspopup='true'
+            onClick={this.handleMenu}
+            color='inherit'
+          >
+            <AccountCircle />
+          </IconButton>
+          <Menu
+            id='menu-appbar'
+            anchorEl={this.state.anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            open={open}
+            onClose={this.handleClose}
+          >
+            <MenuItem component={Link} to='/profile'>
+              Profile
+            </MenuItem>
+            <MenuItem component={Link} to='/signout'>
+              Sign Out
+            </MenuItem>
+          </Menu>
+        </Fragment>
+      );
+    } else {
+      return (
+        <Fragment>
+          <Button color='inherit' component={Link} to='/login'>
+            Login
+          </Button>
+          <Button
+            variant='outlined'
+            color='inherit'
+            component={Link}
+            to='/register'
+          >
+            Sign Up
+          </Button>
+        </Fragment>
+      );
     }
   }
 
@@ -179,12 +177,13 @@ class Header extends React.Component {
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
+
   render() {
     const { classes, theme } = this.props;
 
     //   console.log('Header: auth prop: ', this.props.auth);
     // console.log('Header rendering...');
-    // console.log('Header props: ', this.props);
+    console.log('Header props: ', this.props);
     // logout = () => {
     //   return (window.location.href = '/api/logout');
     // };
@@ -212,21 +211,14 @@ class Header extends React.Component {
               <ListItemText primary='Profile' />
             </ListItem>
           </Link>
-
-          <ListItem
-            button
-            key='logout'
-            style={{ textDecoration: 'none' }}
-            onClick={e => {
-              e.preventDefault();
-              window.location.href = '/auth/logout';
-            }}
-          >
-            <ListItemIcon>
-              <ExitToApp />
-            </ListItemIcon>
-            <ListItemText primary='Log Out' />
-          </ListItem>
+          <Link style={{ textDecoration: 'none' }} to='/signout'>
+            <ListItem button key='profile'>
+              <ListItemIcon>
+                <Person />
+              </ListItemIcon>
+              <ListItemText primary='Sign Out' />
+            </ListItem>
+          </Link>
         </List>
       </div>
     );
@@ -265,37 +257,7 @@ class Header extends React.Component {
           </Toolbar>
         </AppBar>
 
-        {/* <Drawer
-          className={classes.drawer}
-          variant='permanent'
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <div className={classes.toolbar} />
-          <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-        </Drawer> */}
-        {this.props.auth && (
+        {this.props.token.token && (
           <nav className={classes.drawer}>
             <Hidden smUp implementation='css'>
               <Drawer
@@ -306,7 +268,7 @@ class Header extends React.Component {
                 open={this.state.mobileOpen}
                 onClose={this.handleDrawerToggle}
                 classes={{
-                  paper: classes.drawerPaper,
+                  paper: classes.drawerPaper
                 }}
               >
                 <div className={classes.drawerHeader}>
@@ -321,7 +283,7 @@ class Header extends React.Component {
             <Hidden xsDown implementation='css'>
               <Drawer
                 classes={{
-                  paper: classes.drawerPaper,
+                  paper: classes.drawerPaper
                 }}
                 variant='permanent'
                 open
@@ -338,11 +300,15 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
-const mapStateToProps = ({ auth }) => {
-  // console.log('hearder auth: ', auth);
-  return { auth };
+const mapStateToProps = state => {
+  console.log('hearder auth: ', state);
+  return { token: state.auth.token };
 };
 
+// const mapStateToProps = ({ auth }) => {
+//   // console.log('hearder auth: ', auth);
+//   return { auth };
+// };
 export default withStyles(styles)(connect(mapStateToProps)(Header));

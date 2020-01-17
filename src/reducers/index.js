@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import { reducer as reduxFormReducer } from 'redux-form';
-import { programTypes, users } from './sharedReducers';
-import authReducer from './authReducer';
+import { programTypes, users, expertAreas } from './sharedReducers';
+import { token, user } from './authReducer';
 // import expertAreasReducer from './expertAreasReducer';
 // import { requestStatuses } from './sharedReducers';
 // import { reducer as reduxFormReducer } from 'redux-form';
 
 export default combineReducers({
-  auth: authReducer,
+  auth: combineReducers({ token, user }),
   form: reduxFormReducer,
-  shared: combineReducers({ programTypes, users }),
+  shared: combineReducers({ programTypes, users, expertAreas })
 });

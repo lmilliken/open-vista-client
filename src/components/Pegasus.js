@@ -26,7 +26,7 @@ const styles = theme => ({
     marginRight: 'auto',
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
 });
 

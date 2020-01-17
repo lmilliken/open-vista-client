@@ -27,32 +27,32 @@ const styles = theme => ({
   main: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(400 + theme.spacing(3) * 2)]: {
       width: 400,
       marginLeft: 'auto',
       marginRight: 'auto',
     },
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    marginTop: theme.spacing(1) * 8,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme
       .spacing.unit * 3}px`,
   },
   avatar: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
   submit: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
   },
 });
 
@@ -102,7 +102,7 @@ class Register extends React.Component {
               email: Yup.string()
                 .required('Email is required.')
                 .email('Invalid email address'),
-              terms: Yup.boolean(true).required('Must agree to terms.'),
+              terms: Yup.boolean().required('Must agree to terms.'),
             })}
             initialValues={{
               nameFirst: '',
@@ -145,13 +145,15 @@ class Register extends React.Component {
                     component={CheckboxFormik}
                     label='I agree to the terms and condition of use.'
                   />
+
                   <Button
                     type='submit'
+                    fullWidth
                     variant='contained'
                     color='primary'
-                    //disabled={isSubmitting || !isEmpty(errors) || !dirty}
+                    className={classes.submit}
                   >
-                    Submit
+                    Register
                   </Button>
                   <pre>{JSON.stringify(props, null, 2)}</pre>
                 </Form>
