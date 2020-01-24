@@ -4,7 +4,8 @@ import {
   FETCH_USER_SUCCESS,
   FETCH_USER_ERROR,
   AUTH_USER,
-  AUTH_ERROR,CLEAR_USER
+  AUTH_ERROR,
+  CLEAR_USER
 } from './types';
 import config from '../config';
 import queryString from 'query-string';
@@ -30,7 +31,6 @@ export const signout = () => dispatch => {
   dispatch({ type: AUTH_USER, payload: '' });
   dispatch({ type: CLEAR_USER, payload: '' });
 };
-
 
 export const fetchUser = () => async dispatch => {
   //they maybe coming back to the site after authenticating with Google with url.com?token=234lkj
